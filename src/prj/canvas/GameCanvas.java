@@ -62,24 +62,6 @@ public class GameCanvas extends Canvas {
 		players[1] = new Player(700, 0, 2);
 		players[2] = new Player(0, 450, 3);
 		players[3] = new Player(700, 450, 4);	
-		
-//		actionCard = new ActionCard();
-//		actionCard.setActionListener(new ActionCardListener() {
-//			
-//			@Override
-//			public void take(int randomPlayer, int randomCard) {
-//				players[playTurn].takeCard(randomCard);
-//				players[randomPlayer].moveToPlayer(randomCard);
-//			}
-//			
-//			@Override
-//			public void give(int randomPlayer, int randomCard) {
-//				players[randomPlayer].takeCard(randomCard);
-//				players[playTurn].moveToPlayer(randomCard);
-//				
-//			}
-//		});
-		
 
 		cardList = new ArrayList<>();
 		
