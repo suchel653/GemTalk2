@@ -30,10 +30,10 @@ public class GameBackground {
 	}
 	
 	public GameBackground() {
-		this(0, 0, "res/gameBackground.jpg");
+		this(0, 0);
 	}
 
-	public GameBackground(int x, int y, String imgSrc) {
+	public GameBackground(int x, int y) {
 		this.x = x;
 		this.y = y;
 		

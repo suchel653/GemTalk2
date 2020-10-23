@@ -19,7 +19,7 @@ public class ChanceCard extends Card {
 		setCardType(4);
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		img = tk.getImage("res/chanceCard.jpg");
+		img = tk.getImage("res/chanceCard.png");
 	}
 
 	@Override

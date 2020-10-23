@@ -104,6 +104,7 @@ public class MyCard {
 
 	public void moveToPlayer(int cardType) {
 		gemsCount[cardType]++;
+		
 	}
 	
 	public int takeCard(int cardType) {//뺏는거 0개보다 작으면 다른 뻇을거를 찾아됨
@@ -117,7 +118,7 @@ public class MyCard {
 				gemsCount[cardType]--;
 			}
 		}
-	
+		System.out.println("카드타입: "+cardType);
 		return cardType;
 	}
 

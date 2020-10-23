@@ -18,6 +18,7 @@ import prj.entity.ActionCardListener;
 import prj.entity.BlueCard;
 import prj.entity.Card;
 import prj.entity.CardDeck;
+import prj.entity.CardListener;
 import prj.entity.ChanceCard;
 import prj.entity.GameBackground;
 import prj.entity.GameBoardBackground;
@@ -42,8 +43,9 @@ public class GameCanvas extends Canvas {
 	private GameBackground gameBackground;
 	private int playTurn;
 
-	private MyCard myCard; // 인터페이스 때문에 정의
 	private ActionCard actionCard;
+	private MyCard myCard; // 인터페이스 때문에 정의
+
 //	private PlayerBoard[] playerBoards = new PlayerBoard[4]; // 플레이어 보드 4개 생성
 
 
@@ -60,24 +62,6 @@ public class GameCanvas extends Canvas {
 		players[1] = new Player(700, 0, 2);
 		players[2] = new Player(0, 450, 3);
 		players[3] = new Player(700, 450, 4);	
-		
-		actionCard = new ActionCard();
-		actionCard.setActionListener(new ActionCardListener() {
-			
-			@Override
-			public void take(int randomPlayer, int randomCard) {
-				players[randomPlayer].moveToPlayer(randomCard);
-				players[playTurn].takeCard(randomCard);
-			}
-			
-			@Override
-			public void give(int randomPlayer, int randomCard) {
-				players[playTurn].moveToPlayer(randomCard);
-				players[randomPlayer].takeCard(randomCard);
-				
-			}
-		});
-		
 
 		cardList = new ArrayList<>();
 		
@@ -182,7 +166,25 @@ public class GameCanvas extends Canvas {
 						System.out.println("lucky");
 					}
 					else if (cardList.get(0).getCardType() == 5) {
-						System.out.println("Action");
+
+						actionCard = (ActionCard)cardList.get(0);
+						actionCard.setActionListener(new ActionCardListener() {
+							
+							@Override
+							public void take(int randomPlayer, int randomCard) {
+								int cardType = players[randomPlayer].takeCard(randomCard);
+								players[playTurn].moveToPlayer(cardType);
+								
+							}
+							
+							@Override
+							public void give(int randomPlayer, int randomCard) {
+								int cardType = players[playTurn].takeCard(randomCard);
+								players[randomPlayer].moveToPlayer(cardType);
+								
+							}
+						});
+						
 						cardList.get(0).giveOrTake(playTurn);
 						voteCount = 4;
 					}else {

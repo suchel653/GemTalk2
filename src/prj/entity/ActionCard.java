@@ -38,21 +38,21 @@ public class ActionCard extends Card {
 				ch = false;
 		}
 		System.out.println("give or take");
-		
+		System.out.println("rand: " + (randomPlayer+1)+"번");
+		System.out.println("play: " + (playTurn+1)+"번");
 		
 		if(actionCardType == 0) {
 			if(actionListener != null) {
-				System.out.println(actionCardType);
+				System.out.println("give");
 				actionListener.give(randomPlayer,randomCard);
 			}
 		}
 		else {
 			if(actionListener != null) {
-				System.out.println(actionCardType);
+				System.out.println("take");
 				actionListener.take(randomPlayer,randomCard);
 			}
-		}
-		
+		}	
 	}
 
 	@Override

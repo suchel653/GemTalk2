@@ -3,9 +3,13 @@ package prj.entity;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.Random;
 
 public abstract class Card {
 
+//	private CardListener listener;
+//	private Random rand;
+	
 	// move 메소드를 위한 좌표
 	private int x;
 	private int y;
@@ -46,6 +50,8 @@ public abstract class Card {
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		img = tk.getImage(imgSrc);
+		
+//		rand = new Random();
 
 	}
 
@@ -80,7 +86,30 @@ public abstract class Card {
 	
 
 	public void giveOrTake(int playTurn) {
-		
+//		int randomPlayer = rand.nextInt(4);
+//		int randomCard = rand.nextInt(5);
+//		
+//		boolean ch=true;
+//		
+//		while(ch) {
+//			if(randomPlayer == playTurn)
+//				randomPlayer = rand.nextInt(4);
+//			else
+//				ch = false;
+//		}
+//		
+//		if(questionOrder == 0) {
+//			if(listener != null) {
+//				System.out.println(questionOrder);
+//				listener.give(randomPlayer,randomCard);
+//			}
+//		}
+//		else {
+//			if(listener != null) {
+//				System.out.println(questionOrder);
+//				listener.take(randomPlayer,randomCard);
+//			}
+//		}
 	}
 
 	public int getMissionCount() {
@@ -148,5 +177,8 @@ public abstract class Card {
 		this.height = height;
 	}
 
+//	public void setListener(CardListener listener) {
+//		this.listener = listener;
+//	}
 	
 }

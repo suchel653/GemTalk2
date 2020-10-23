@@ -129,8 +129,9 @@ public class Player {
 		
 	}
 
-	public void takeCard(int randomCard) {
-		myCard.takeCard(randomCard);
+	public int takeCard(int randomCard) {
+	
+		return myCard.takeCard(randomCard);
 		
 	}
 
