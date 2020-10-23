@@ -21,7 +21,7 @@ public class IntroBackground {
 
 	static {
 		try {
-			img = ImageIO.read(new File("GemTalk2/res/introBackground.jpg"));
+			img = ImageIO.read(new File("res/introBackground.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

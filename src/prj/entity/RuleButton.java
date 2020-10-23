@@ -41,7 +41,7 @@ public class RuleButton {
 //		System.out.println("y: " + y);
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		img = tk.getImage("GemTalk2/res/backButton.png");
+		img = tk.getImage("res/backButton.png");
 
 		int x = (int) getX();
 		int y = (int) getY();

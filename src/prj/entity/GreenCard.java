@@ -14,7 +14,7 @@ public class GreenCard extends Card {
 	}
 
 	public GreenCard(int order) {
-		super(order,"GemTalk2/res/greenCard.png");
+		super(order,"res/greenCard.png");
 		
 		setCardType(2);
 

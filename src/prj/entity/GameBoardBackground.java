@@ -16,7 +16,7 @@ public class GameBoardBackground {
 	
 	static {
 		try {
-			img = ImageIO.read(new File("GemTalk2/res/gameBoardBackground.png"));
+			img = ImageIO.read(new File("res/gameBoardBackground.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

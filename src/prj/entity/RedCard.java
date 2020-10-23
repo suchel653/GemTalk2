@@ -14,7 +14,7 @@ public class RedCard extends Card {
 	}
 
 	public RedCard(int order) {
-		super(order,"GemTalk2/res/redCard.png");
+		super(order,"res/redCard.png");
 		
 		setCardType(0);
 

@@ -18,7 +18,7 @@ public class ActionCard extends Card {
 	}
 
 	public ActionCard(int actionCardType) {
-		super(actionCardType,"GemTalk2/res/actionCard.png");
+		super(actionCardType,"res/actionCard.png");
 		setCardType(5);
 		this.actionCardType = actionCardType;
 		rand = new Random();
