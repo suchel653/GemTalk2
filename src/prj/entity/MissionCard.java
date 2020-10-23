@@ -64,11 +64,11 @@ public class MissionCard {
 		cards = new Card[4];
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		missionCardImg = tk.getImage("GemTalk2/res/missionCard1.png");
-		redGemImg = tk.getImage("GemTalk2/res/redGem.png");
-		orangeGemImg = tk.getImage("GemTalk2/res/orangeGem.png");
-		greenGemImg = tk.getImage("GemTalk2/res/greenGem.png");
-		blueGemImg = tk.getImage("GemTalk2/res/blueGem.png");
+		missionCardImg = tk.getImage("res/missionCard1.png");
+		redGemImg = tk.getImage("res/redGem.png");
+		orangeGemImg = tk.getImage("res/orangeGem.png");
+		greenGemImg = tk.getImage("res/greenGem.png");
+		blueGemImg = tk.getImage("res/blueGem.png");
 
 		cards[0] = new RedCard();
 		cards[1] = new OrangeCard();

@@ -41,11 +41,11 @@ public class IntroButton {
 		// 그냥 그림파일 넣기
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		if (this.i == 1) {
-			img = tk.getImage("GemTalk2/res/startButton.png");
+			img = tk.getImage("res/startButton.png");
 		} else if (this.i == 2) {
-			img = tk.getImage("GemTalk2/res/ruleButton.png");
+			img = tk.getImage("res/ruleButton.png");
 		} else if (this.i == 3) {
-			img = tk.getImage("GemTalk2/res/exitButton.png");
+			img = tk.getImage("res/exitButton.png");
 		}
 
 		int x = (int) getX();

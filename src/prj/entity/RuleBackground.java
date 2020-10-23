@@ -16,7 +16,7 @@ public class RuleBackground {
 	private Image img;
 	
 	public RuleBackground() {
-		this(0,0,"GemTalk2/res/ruleback.png");
+		this(0,0,"res/ruleback.png");
 	}
 
 	public RuleBackground(double x, double y, String imgSrc) {

@@ -79,12 +79,12 @@ public class MyCard {
 		cardStatus = new CardStatus[5];
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		myCardImg = tk.getImage("GemTalk2/res/myCard1.png");
-		redGemImg = tk.getImage("GemTalk2/res/redGem.png");
-		orangeGemImg = tk.getImage("GemTalk2/res/orangeGem.png");
-		greenGemImg = tk.getImage("GemTalk2/res/greenGem.png");
-		blueGemImg = tk.getImage("GemTalk2/res/blueGem.png");
-		chanceGemImg = tk.getImage("GemTalk2/res/chanceGem.png");
+		myCardImg = tk.getImage("res/myCard1.png");
+		redGemImg = tk.getImage("res/redGem.png");
+		orangeGemImg = tk.getImage("res/orangeGem.png");
+		greenGemImg = tk.getImage("res/greenGem.png");
+		blueGemImg = tk.getImage("res/blueGem.png");
+		chanceGemImg = tk.getImage("res/chanceGem.png");
 
 		// 처음엔 내가 모은 보석(카드)의 개수가 0개이므로 0으로 초기화
 		int temp = gemY; // gemY값이 보석마다 달라서 바뀌기 때문에 임시변수로 temp로 넣었음
@@ -104,6 +104,7 @@ public class MyCard {
 
 	public void moveToPlayer(int cardType) {
 		gemsCount[cardType]++;
+		
 	}
 	
 	public int takeCard(int cardType) {//뺏는거 0개보다 작으면 다른 뻇을거를 찾아됨
@@ -117,7 +118,7 @@ public class MyCard {
 				gemsCount[cardType]--;
 			}
 		}
-	
+		System.out.println("카드타입: "+cardType);
 		return cardType;
 	}
 

@@ -46,7 +46,7 @@ public class Player {
 			break;
 		}
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		img = tk.getImage("GemTalk2/res/player" + imgNum + ".png");
+		img = tk.getImage("res/player" + imgNum + ".png");
 
 	}
 
@@ -129,8 +129,9 @@ public class Player {
 		
 	}
 
-	public void takeCard(int randomCard) {
-		myCard.takeCard(randomCard);
+	public int takeCard(int randomCard) {
+	
+		return myCard.takeCard(randomCard);
 		
 	}
 

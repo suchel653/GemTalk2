@@ -18,7 +18,7 @@ public class CardDeck extends Card {
 	}
 
 	public CardDeck(int x, int y) {
-		super(x,y,"GemTalk2/res/cardDeck.png");
+		super(x,y,"res/cardDeck.png");
 
 		this.x = x; // 355 + 20
 		this.y = y; // 225 + 20

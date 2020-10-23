@@ -23,17 +23,17 @@ public class GameBackground {
 	
 	static {
 		try {
-			img = ImageIO.read(new File("GemTalk2/res/gameBackground.png"));
+			img = ImageIO.read(new File("res/gameBackground.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public GameBackground() {
-		this(0, 0, "res/gameBackground.jpg");
+		this(0, 0);
 	}
 
-	public GameBackground(int x, int y, String imgSrc) {
+	public GameBackground(int x, int y) {
 		this.x = x;
 		this.y = y;
 		
