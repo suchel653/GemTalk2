@@ -42,12 +42,12 @@ public class ActionCard extends Card {
 
 		if (actionCardType == 0) { // 나의 카드 중 1개를 플레이어 중 1명에게 주기
 			if (actionListener != null) {
-				System.out.println("actionCardType: 0번 -> 나의 카드 " + randomCard +  "를  " + (randomPlayer + 1) + "번에게 주기 ");
+				System.out.println("actionCardType: 0번 -> 나의 카드 " + randomCard +  "를  " + (randomPlayer + 1) + "번 플레이어에게 주기 ");
 				actionListener.give(randomPlayer, randomCard);
 			}
 		} else {
 			if (actionListener != null) { // 플레이어 중 1명이 나에게 카드 
-				System.out.println("actionCardType: 1번 -> 내가 " + (randomPlayer + 1) + "번으로부터 " + randomCard + "를 뺏어오기");
+				System.out.println("actionCardType: 1번 -> 내가 " + (randomPlayer + 1) + "번 플레이어로부터 " + randomCard + "를 뺏어오기");
 				actionListener.take(randomPlayer, randomCard);
 			}
 		}
