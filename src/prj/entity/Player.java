@@ -50,12 +50,12 @@ public class Player {
 
 	}
 
-	public int vote() { 
+	public int vote() {
 
 		Object options[] = { "O", "X" };
-		int input = JOptionPane.showOptionDialog(GameCanvas.instance, "찬성하면 O, 반대하면 X를 눌러주세요", "찬/반 선택", JOptionPane.DEFAULT_OPTION,
-				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-		
+		int input = JOptionPane.showOptionDialog(GameCanvas.instance, "찬성하면 O, 반대하면 X를 눌러주세요", "찬/반 선택",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
 		return input;
 	}
 
@@ -63,9 +63,9 @@ public class Player {
 
 		String answer = JOptionPane.showInputDialog(GameCanvas.instance, "대답을 입력하세요");
 
-		String text = "player"+Integer.toString(playTurn+1)+"의 대답입니다";
-		
-		JOptionPane.showMessageDialog(GameCanvas.instance, answer,text,JOptionPane.INFORMATION_MESSAGE);
+		String text = "player" + Integer.toString(playTurn + 1) + "의 대답입니다";
+
+		JOptionPane.showMessageDialog(GameCanvas.instance, answer, text, JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	// 윈을 체크하는 메소드
@@ -94,9 +94,9 @@ public class Player {
 
 		g.drawImage(img, x1, y1, x2, y2, 0, 0, w, h, GameCanvas.instance);
 	}
-	
+
 	public void update() {
-		//missionCard.update();
+		// missionCard.update();
 		myCard.update();
 	}
 
@@ -126,14 +126,13 @@ public class Player {
 
 	public void moveToPlayer(int cardType) {
 		myCard.moveToPlayer(cardType);
-		
+
 	}
 
 	public int takeCard(int randomCard) {
-	
-		return myCard.takeCard(randomCard);
-		
-	}
 
+		return myCard.takeCard(randomCard);
+
+	}
 
 }
