@@ -21,7 +21,7 @@ public class IntroBackground {
 
 	static {
 		try {
-			img = ImageIO.read(new File("res/introBackground.jpg"));
+			img = ImageIO.read(new File("res/introBackground.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

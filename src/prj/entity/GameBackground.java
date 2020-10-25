@@ -45,7 +45,6 @@ public class GameBackground {
 	public void paint(Graphics g) {
 		int w = GameCanvas.instance.getWidth();
 		int h = GameCanvas.instance.getHeight();
-		
 		g.drawImage(img, x, y, w, h, GameCanvas.instance);
 	}
 	

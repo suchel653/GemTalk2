@@ -29,6 +29,7 @@ import prj.entity.OrangeCard;
 import prj.entity.Player;
 import prj.entity.PlayerListener;
 import prj.entity.RedCard;
+import prj.entity.TurnPointer;
 
 public class GameCanvas extends Canvas {
 
@@ -46,6 +47,7 @@ public class GameCanvas extends Canvas {
 	private int playTurn;
 
 	private ActionCard actionCard;
+	private TurnPointer turnPointer;
 	// private MyCard myCard; // 인터페이스 때문에 정의
 
 //	private PlayerBoard[] playerBoards = new PlayerBoard[4]; // 플레이어 보드 4개 생성
@@ -104,6 +106,8 @@ public class GameCanvas extends Canvas {
 		card2 = cardList.get(0);
 		cardList.remove(0);
 
+		turnPointer = new TurnPointer();
+
 		addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -140,7 +144,7 @@ public class GameCanvas extends Canvas {
 					cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
 
 					playTurn = ++playTurn % 4; // playTurn: 0 ~ 3
-
+					turnPointer.turn(playTurn);
 				} else if (card2.choiceCard(x, y)) {
 //					gameBoard.zoomIn2();
 					check(cardList.get(0));
@@ -168,6 +172,7 @@ public class GameCanvas extends Canvas {
 					cardList.remove(0);
 
 					playTurn = ++playTurn % 4;
+					turnPointer.turn(playTurn);
 				} else if (cardDeck.choiceCard(x, y)) {
 //					cardList.get(0).zoomIn();
 
@@ -218,6 +223,7 @@ public class GameCanvas extends Canvas {
 
 					cardList.remove(0);
 					playTurn = ++playTurn % 4;
+					turnPointer.turn(playTurn);
 				}
 
 //				cardList.remove(0);// zoomout역할
@@ -290,6 +296,7 @@ public class GameCanvas extends Canvas {
 		cardDeck.paint(bg);
 		card1.paint(bg);
 		card2.paint(bg);
+		turnPointer.paint(bg);
 
 		g.drawImage(buf, 0, 0, this);
 	}

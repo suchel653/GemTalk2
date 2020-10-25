@@ -22,7 +22,6 @@ public class IntroCanvas extends Canvas {
 
 	public IntroCanvas() {
 		instance = this;
-
 		button1 = new IntroButton(950, 400, 150, 80, 1); // 1 : start
 		button2 = new IntroButton(950, 480, 150, 80, 2); // 2 : rule
 		button3 = new IntroButton(950, 560, 150, 80, 3); // 3 : exit
