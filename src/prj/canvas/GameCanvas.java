@@ -68,12 +68,16 @@ public class GameCanvas extends Canvas {
 			players[i].setPlayerListener(new PlayerListener() {
 
 				@Override
-				public void onWin() {
+				public void win() {
 					System.out.println("소켓이 없어서 누군지는 모르지만 누군가 승리했습니다!");
-//					if(win)
-//						imgWin.paint
-//					else(lose)
-//						imgLose.paint
+					
+
+//						winImg = player[playTurn].win();
+					
+//						for(int i=0;i<4;i++)
+//							if(i != playTurn)
+//								loseImg = player[i].lose();
+//						System.exit(0);
 
 				}
 			});
@@ -103,6 +107,11 @@ public class GameCanvas extends Canvas {
 		check(cardList.get(0));
 		card2 = cardList.get(0);
 		cardList.remove(0);
+		
+		card1.setX(544);
+		card1.setY(245);
+		card2.setX(718);
+		card2.setY(245);
 
 		addMouseListener(new MouseAdapter() {
 
@@ -117,7 +126,7 @@ public class GameCanvas extends Canvas {
 					check(cardList.get(0)); // 체크하면서 찬스, 행동카드가 나오면 cardList 맨뒤로 보내는 작업
 					Card temp = cardList.get(0);
 //					card1.zoomIn();// zoomin
-
+					
 					players[playTurn].answer(playTurn); // 대답하고 대답한 내용을 띄우기 까지함
 					for (int i = 0; i < 4; i++)
 						if (i != playTurn)
@@ -128,15 +137,15 @@ public class GameCanvas extends Canvas {
 						cardType = card1.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
 
-						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
+						
 
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
-//					gameBoard.zoomOut1();// zoomout 객체는 살아있지만 paint는 안되는
 
-					card1 = temp; // zoomout 직후에 다음 card1을 paint하기 위함
+					card1 = temp;
+					card1.zoomOut();
 					cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
 
 					playTurn = ++playTurn % 4; // playTurn: 0 ~ 3
@@ -162,9 +171,10 @@ public class GameCanvas extends Canvas {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
-//					gameBoard.zoomOut2();
 
 					card2 = temp;
+					
+					card2.zoomOut();
 					cardList.remove(0);
 
 					playTurn = ++playTurn % 4;
@@ -281,11 +291,6 @@ public class GameCanvas extends Canvas {
 
 		for (int i = 0; i < 4; i++)
 			players[i].paint(bg);
-
-		card1.setX(cardDeck.getX() + cardDeck.getWidth() + 20);
-		card1.setY(cardDeck.getY());
-		card2.setX(cardDeck.getX() + (cardDeck.getWidth() + 20) * 2);
-		card2.setY(cardDeck.getY());
 
 		cardDeck.paint(bg);
 		card1.paint(bg);

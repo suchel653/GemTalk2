@@ -71,7 +71,7 @@ public class Player {
 	}
 
 	// 윈을 체크하는 메소드
-	public void win() {
+	public void onWin() {
 		int trueCount = 0; // 각각의 나의 카드가 각각의 미션카드를 몇 개 만족시키는지
 
 		int[] myCardsCount = new int[5];
@@ -104,9 +104,17 @@ public class Player {
 		}
 
 		if (playerListener != null && trueCount == 4)
-			playerListener.onWin();
+			playerListener.win();
 
 	}
+	
+//	public winImg win() {
+//		return new WinImg();
+//	}
+	
+//	public loseImg lose() {
+//		return new LoseImg();
+//	}
 
 	public void paint(Graphics g) {
 		missionCard.paint(g);
@@ -125,7 +133,7 @@ public class Player {
 	public void update() {
 		// missionCard.update();
 		myCard.update();
-		win();
+		onWin();
 	}
 
 	public int getX() {
