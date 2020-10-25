@@ -81,9 +81,9 @@ public class MissionCard {
 		for (int i = 0; i < max; i++) {
 			boolean ch = true;
 			int color = rand.nextInt(4);
-			
-			while(ch) {
-				if(cards[color].getMissionCount()>=3)
+
+			while (ch) {
+				if (cards[color].getMissionCount() >= 3)
 					color = rand.nextInt(4);
 				else {
 					cards[color].setMissionCount(cards[color].getMissionCount() + 1);

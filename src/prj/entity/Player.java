@@ -22,6 +22,8 @@ public class Player {
 	private MissionCard missionCard;
 	private MyCard myCard;
 
+	private PlayerListener playerListener;
+
 	public Player() {
 		this(0, 0, 1);
 	}
@@ -69,16 +71,41 @@ public class Player {
 	}
 
 	// 윈을 체크하는 메소드
-	public void onWin() {
-//		myCard.getRedCount == missionCard.getCards()[0].getMissionCount();
-//		
-//		myCard.getOrangeCount == missionCard.getCards()[1].getMissionCount();
-//		
-//		myCard.getGreenCount == missionCard.getCards()[2].getMissionCount();
-//		
-//		myCard.getBlueCount == missionCard.getCards()[3].getMissionCount();
+	public void win() {
+		int trueCount = 0; // 각각의 나의 카드가 각각의 미션카드를 몇 개 만족시키는지
 
-//		chanceCount == ?
+		int[] myCardsCount = new int[5];
+		int[] missionCardsCount = new int[4];
+
+		int myCardsTotal = 0;
+		int missionCardsTotal = 0;
+
+		for (int i = 0; i < 5; i++) {
+			myCardsCount[i] = myCard.getGemsCount()[i];
+			myCardsTotal += myCardsCount[i];
+		}
+
+		for (int i = 0; i < 4; i++) {
+			missionCardsCount[i] = missionCard.getCards()[i].getMissionCount();
+			missionCardsTotal += missionCardsCount[i];
+		}
+
+		if (myCardsTotal >= missionCardsTotal) {
+			for (int i = 0; i < 4; i++) {
+				if (myCardsCount[i] < missionCardsCount[i]) {
+					if (myCardsCount[i] + myCardsCount[4] >= missionCardsCount[i]) {
+						myCardsCount[4] -= missionCardsCount[i] - myCardsCount[i];
+						trueCount++;
+					}
+				} else {
+					trueCount++;
+				}
+			}
+		}
+
+		if (playerListener != null && trueCount == 4)
+			playerListener.onWin();
+
 	}
 
 	public void paint(Graphics g) {
@@ -98,6 +125,7 @@ public class Player {
 	public void update() {
 		// missionCard.update();
 		myCard.update();
+		win();
 	}
 
 	public int getX() {
@@ -126,13 +154,14 @@ public class Player {
 
 	public void moveToPlayer(int cardType) {
 		myCard.moveToPlayer(cardType);
-
 	}
 
 	public int takeCard(int randomCard) {
-
 		return myCard.takeCard(randomCard);
+	}
 
+	public void setPlayerListener(PlayerListener playerListener) {
+		this.playerListener = playerListener;
 	}
 
 }

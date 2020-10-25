@@ -1,8 +1,8 @@
 package prj.entity;
 
-public interface MyCardListener {
+public interface PlayerListener {
 
-//	void onWin();
+	void onWin();
 	
 	//void moveToPlayer();
 }

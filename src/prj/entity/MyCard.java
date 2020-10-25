@@ -51,9 +51,6 @@ public class MyCard {
 
 	private Random rand;
 
-	// 인터페이스
-	private MyCardListener myCardListener;
-
 	public MyCard() {
 		this(0, 0);
 	}
@@ -158,9 +155,13 @@ public class MyCard {
 		// 가는게 나을거 같아요
 	}
 
-	// [인터페이스] 꽂아넣기 위한 setter
-	public void setMyCardListener(MyCardListener myCardListener) {
-		this.myCardListener = myCardListener;
+	public int[] getGemsCount() {
+		return gemsCount;
 	}
 
+	public void setGemsCount(int[] gemsCount) {
+		this.gemsCount = gemsCount;
+	}
+
+	
 }

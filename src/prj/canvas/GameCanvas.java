@@ -24,8 +24,10 @@ import prj.entity.GameBackground;
 import prj.entity.GameBoardBackground;
 import prj.entity.GreenCard;
 import prj.entity.MyCard;
+import prj.entity.MyCardListener;
 import prj.entity.OrangeCard;
 import prj.entity.Player;
+import prj.entity.PlayerListener;
 import prj.entity.RedCard;
 
 public class GameCanvas extends Canvas {
@@ -44,7 +46,7 @@ public class GameCanvas extends Canvas {
 	private int playTurn;
 
 	private ActionCard actionCard;
-	private MyCard myCard; // 인터페이스 때문에 정의
+	// private MyCard myCard; // 인터페이스 때문에 정의
 
 //	private PlayerBoard[] playerBoards = new PlayerBoard[4]; // 플레이어 보드 4개 생성
 
@@ -61,6 +63,20 @@ public class GameCanvas extends Canvas {
 		players[1] = new Player(700, 0, 2);
 		players[2] = new Player(0, 450, 3);
 		players[3] = new Player(700, 450, 4);
+
+		for (int i = 0; i < 4; i++)
+			players[i].setPlayerListener(new PlayerListener() {
+
+				@Override
+				public void onWin() {
+					System.out.println("소켓이 없어서 누군지는 모르지만 누군가 승리했습니다!");
+//					if(win)
+//						imgWin.paint
+//					else(lose)
+//						imgLose.paint
+
+				}
+			});
 
 		cardList = new ArrayList<>();
 		cardDeck = new CardDeck(370, 245);
@@ -88,19 +104,6 @@ public class GameCanvas extends Canvas {
 		card2 = cardList.get(0);
 		cardList.remove(0);
 
-		// 우승할 때 인터페이스 꽂는 부분
-//		myCard.setMyCardListener(new MyCardListener() {
-//			
-//			@Override
-//			public void onWin() {
-//				// 게임에서 우승했을 때의 소스코드	canvas or 팝업창
-//				if(win)
-//					imgWin.paint
-//				else(lose)
-//					imgLose.paint
-//			}
-//		});
-
 		addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -126,6 +129,7 @@ public class GameCanvas extends Canvas {
 						players[playTurn].moveToPlayer(cardType);
 
 						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
+
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
@@ -153,6 +157,7 @@ public class GameCanvas extends Canvas {
 						players[playTurn].moveToPlayer(cardType);
 
 						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
+
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
@@ -169,6 +174,7 @@ public class GameCanvas extends Canvas {
 					if (cardList.get(0).getCardType() == 4) {
 						voteCount = 4;
 						System.out.println("lucky");
+
 					} else if (cardList.get(0).getCardType() == 5) {
 						actionCard = (ActionCard) cardList.get(0);
 						actionCard.setActionListener(new ActionCardListener() {
@@ -177,12 +183,14 @@ public class GameCanvas extends Canvas {
 							public void give(int randomPlayer, int randomCard) {
 								int cardType = players[playTurn].takeCard(randomCard);
 								players[randomPlayer].moveToPlayer(cardType);
+
 							}
 
 							@Override
 							public void take(int randomPlayer, int randomCard) {
 								int cardType = players[randomPlayer].takeCard(randomCard);
 								players[playTurn].moveToPlayer(cardType);
+
 							}
 
 						});
@@ -203,6 +211,7 @@ public class GameCanvas extends Canvas {
 						players[playTurn].moveToPlayer(cardType);
 
 						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
+
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
@@ -247,17 +256,6 @@ public class GameCanvas extends Canvas {
 		}).start();
 
 	}
-
-//	public void shuffle() {
-//		for (int i = 0; i < 1000; i++) {
-//			Card temp;
-//			int a = rand.nextInt(50);
-//			int b = rand.nextInt(50);
-//			temp = cards[a];
-//			cards[a] = cards[b];
-//			cards[b] = temp;
-//		}
-//	}
 
 	public void check(Card card) {
 		boolean check = true;
