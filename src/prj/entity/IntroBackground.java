@@ -12,11 +12,8 @@ import prj.canvas.IntroCanvas;
 
 public class IntroBackground {
 
-	private double x;
-	private double y;
 	private int width;
 	private int height;
-	private String imgSrc;
 	private static Image img;
 
 	static {
@@ -27,19 +24,6 @@ public class IntroBackground {
 			e.printStackTrace();
 		}
 	}
-
-// 이부분 없어도 되지 않나?
-//	public IntroBackground() {
-//		this(0, 0, "res/introBackgroundTest.png"); // 경로 아무렇게나 넣음
-//	}
-
-//	public IntroBackground(double x, double y, String imgSrc) {
-//
-//		Image img = getImage();
-//		this.x = x;
-//		this.y = y;
-//
-//	}
 
 	public void paint(Graphics g) {
 
