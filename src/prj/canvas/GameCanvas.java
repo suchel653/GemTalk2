@@ -5,26 +5,20 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-import javax.swing.plaf.metal.MetalBorders.PaletteBorder;
 
 import prj.entity.ActionCard;
 import prj.entity.ActionCardListener;
 import prj.entity.BlueCard;
 import prj.entity.Card;
 import prj.entity.CardDeck;
-import prj.entity.CardListener;
 import prj.entity.ChanceCard;
 import prj.entity.GameBackground;
 import prj.entity.GameBoardBackground;
 import prj.entity.GreenCard;
-import prj.entity.MyCard;
-import prj.entity.MyCardListener;
 import prj.entity.OrangeCard;
 import prj.entity.Player;
 import prj.entity.PlayerListener;
@@ -46,9 +40,6 @@ public class GameCanvas extends Canvas {
 	private int playTurn;
 
 	private ActionCard actionCard;
-	// private MyCard myCard; // 인터페이스 때문에 정의
-
-//	private PlayerBoard[] playerBoards = new PlayerBoard[4]; // 플레이어 보드 4개 생성
 
 	public GameCanvas() {
 		instance = this;
@@ -64,7 +55,7 @@ public class GameCanvas extends Canvas {
 		players[2] = new Player(0, 450, 3);
 		players[3] = new Player(700, 450, 4);
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			players[i].setPlayerListener(new PlayerListener() {
 
 				@Override
@@ -74,9 +65,10 @@ public class GameCanvas extends Canvas {
 //						imgWin.paint
 //					else(lose)
 //						imgLose.paint
-
 				}
 			});
+
+		}
 
 		cardList = new ArrayList<>();
 		cardDeck = new CardDeck(370, 245);
