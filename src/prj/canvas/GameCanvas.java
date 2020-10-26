@@ -66,12 +66,12 @@ public class GameCanvas extends Canvas {
 				@Override
 				public void win() {
 					System.out.println("소켓이 없어서 누군지는 모르지만 누군가 승리했습니다!");
-					// winImg = player[playTurn].win();
+//						winImg = player[playTurn].win();
 
-					// for(int i=0;i<4;i++)
-					// if(i != playTurn)
-					// loseImg = player[i].lose();
-					// System.exit(0);
+//						for(int i=0;i<4;i++)
+//							if(i != playTurn)
+//								loseImg = player[i].lose();
+//						System.exit(0);
 				}
 			});
 
@@ -140,7 +140,7 @@ public class GameCanvas extends Canvas {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
-					// card1 = temp;
+					card1.move(players[playTurn].getX(), players[playTurn].getY());
 					card1 = cardList.get(0);
 					temp = card1;
 
@@ -170,6 +170,8 @@ public class GameCanvas extends Canvas {
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
+
+					card2.move(players[playTurn].getX(), players[playTurn].getY());
 
 					card2 = cardList.get(0);
 					temp = card2;
@@ -228,7 +230,9 @@ public class GameCanvas extends Canvas {
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
+					cardDeck.move(players[playTurn].getX(), players[playTurn].getY());
 					temp = card2;
+
 					cardList.remove(0);
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
@@ -251,10 +255,11 @@ public class GameCanvas extends Canvas {
 						// 얘를 해줘야 repaint를 할때 변경된 부분이 적용되어 다시 그려진다.
 						players[i].update();
 					}
-					// if(cardList.get(0) == null) {
-					//
-					// System.exit(0);
-					// }
+					
+					card1.update();
+					card2.update();
+					cardDeck.update();
+          
 					// repaint() -> Canvas.update()가 화면을 지움 -> Canvas.paint(g)가 다시 그림
 					repaint(); // 이걸 안하면 시작화면에서 그대로 멈춤(그린걸 지우고 다시 그리지를 않으므로)
 

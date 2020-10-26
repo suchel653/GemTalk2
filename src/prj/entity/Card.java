@@ -15,6 +15,11 @@ public abstract class Card {
 	// move 메소드를 위한 좌표
 	private int x;
 	private int y;
+	private int dx;
+	private int dy;
+	private int vx;
+	private int vy;
+	private int speed;
 
 	private int questionOrder; // 10개의 질문을 구분하는 변수
 	private int cardType; // 0:red, 1:orange, 2:green, 3:blue, 4:chance, 5:action
@@ -23,6 +28,7 @@ public abstract class Card {
 	private int width;
 	private int height;
 	private Image img;
+	private double sizeIndex;
 
 	// 카드 갯수 카운트?
 	private int missionCount;
@@ -39,6 +45,7 @@ public abstract class Card {
 	public Card(int order, String string) {
 		this(0, 0, string);
 		questionOrder = order;
+
 	}
 
 	// 인자가 있는 생성자
@@ -52,8 +59,8 @@ public abstract class Card {
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		img = tk.getImage(imgSrc);
-
-		// rand = new Random();
+		speed = 3;
+		sizeIndex = 1;
 
 	}
 
@@ -74,6 +81,38 @@ public abstract class Card {
 
 			return false;
 		}
+	}
+
+	public void move(int dx, int dy) {
+
+		this.dx = dx;
+		this.dy = dy;
+
+		int w = this.dx - this.x;
+		int h = this.dy - this.y;
+		int d = (int) Math.sqrt(w * w + h * h);
+
+//		setVx(w / d * speed);
+//		setVy(h / d * speed);
+		this.vx = w * speed / d;
+		this.vy = h * speed / d;
+		System.out.println(vx);
+		System.out.println(vy);
+
+	}
+
+	public void update() {
+
+		if ((dx - 15 <= x && x <= dx + 15) && (dy - 15 <= y && y <= dy + 15)) {
+			vx = 0;
+			vy = 0;
+		}
+
+		x += vx;
+		y += vy;
+
+		sizeIndex *= 0.9;
+
 	}
 
 	public void zoomIn() {
@@ -170,8 +209,44 @@ public abstract class Card {
 		this.height = height;
 	}
 
-	// public void setListener(CardListener listener) {
-	// this.listener = listener;
-	// }
+	public int getDx() {
+		return dx;
+	}
+
+	public void setDx(int dx) {
+		this.dx = dx;
+	}
+
+	public int getDy() {
+		return dy;
+	}
+
+	public void setDy(int dy) {
+		this.dy = dy;
+	}
+
+	public int getVx() {
+		return vx;
+	}
+
+	public void setVx(int vx) {
+		this.vx = vx;
+	}
+
+	public int getVy() {
+		return vy;
+	}
+
+	public void setVy(int vy) {
+		this.vy = vy;
+	}
+
+	public double getSizeIndex() {
+		return sizeIndex;
+	}
+
+	public void setSizeIndex(double sizeIndex) {
+		this.sizeIndex = sizeIndex;
+	}
 
 }

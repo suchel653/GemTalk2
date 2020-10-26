@@ -42,12 +42,14 @@ public class ActionCard extends Card {
 
 		if (actionCardType == 0) { // 나의 카드 1개를 플레이어 중 1명에게 주기
 			if (actionListener != null) {
-				System.out.println("actionCardType: 0번 -> 나의 카드 " + randomCard +  "를  " + (randomPlayer + 1) + "번 플레이어에게 주기 ");
+				System.out.println(
+						"actionCardType: 0번 -> 나의 카드 " + randomCard + "를  " + (randomPlayer + 1) + "번 플레이어에게 주기 ");
 				actionListener.give(randomPlayer, randomCard);
 			}
 		} else {
 			if (actionListener != null) { // 플레이어 중 1명이 나에게 카드를 준다
-				System.out.println("actionCardType: 1번 -> 내가 " + (randomPlayer + 1) + "번 플레이어로부터 " + randomCard + "를 뺏어오기");
+				System.out.println(
+						"actionCardType: 1번 -> 내가 " + (randomPlayer + 1) + "번 플레이어로부터 " + randomCard + "를 뺏어오기");
 				actionListener.take(randomPlayer, randomCard);
 			}
 		}
@@ -61,7 +63,8 @@ public class ActionCard extends Card {
 		int w = img.getWidth(null) / 6;
 		int h = img.getHeight(null);
 		int order = getQuestionOrder();
-//		System.out.println("or: "+order);
+		int cardW = 154;
+		int cardH = 218;
 
 		g.drawImage(img, x, y, x+getWidth(),y+getHeight(), 0 + w * order, 0, w + w * order, h, GameCanvas.instance);
 	}

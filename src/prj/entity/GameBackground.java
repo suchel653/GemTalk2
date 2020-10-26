@@ -23,7 +23,7 @@ public class GameBackground {
 	
 	static {
 		try {
-			img = ImageIO.read(new File("res/gameBackground.png"));
+			img = ImageIO.read(new File("res/gameBackground1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
