@@ -30,19 +30,18 @@ public class GameFrame extends Frame {
 		setSize(1250, 730);
 		setVisible(true);
 
-		File bgm = new File("res/bgm.wav");
+		File bgm = new File("res/헤네시스.wav");
 
-//		try {
-//
-//			AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
-//			Clip clip = AudioSystem.getClip();
-//			clip.open(stream);
-//			clip.start();
-//
-//		} catch (Exception e) {
-//
-//			e.printStackTrace();
-//		}
+		try {
+			AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+			Clip clip = AudioSystem.getClip();
+			clip.open(stream);
+			clip.start();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
 
 		addWindowListener(new WindowAdapter() {
 

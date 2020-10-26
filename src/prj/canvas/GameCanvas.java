@@ -5,13 +5,21 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JOptionPane;
+
 import prj.entity.ActionCard;
 import prj.entity.ActionCardListener;
+import prj.entity.Bgm;
+import prj.entity.BgmListener;
 import prj.entity.BlueCard;
 import prj.entity.Card;
 import prj.entity.CardDeck;
@@ -45,6 +53,8 @@ public class GameCanvas extends Canvas {
 
 	private ActionCard actionCard;
 	private TurnPointer turnPointer;
+	
+	private Bgm bgm;
 
 	public GameCanvas() {
 		instance = this;
@@ -135,9 +145,31 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = temp.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
+						
+						bgm = new Bgm();
+						bgm.setBgmListener(new BgmListener() {
+							
+							@Override
+							public void playLoseBgm() {
+								File bgm = new File("res/뾰로롱.wav");
+
+								try {
+									AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+									Clip clip = AudioSystem.getClip();
+									clip.open(stream);
+									clip.start();
+
+								} catch (Exception e) {
+
+									e.printStackTrace();
+								}
+							}
+						});
+						bgm.play();
 
 					} else {
-						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
+						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
+								JOptionPane.WARNING_MESSAGE);
 					}
 
 					card1.move(players[playTurn].getX(), players[playTurn].getY());
@@ -150,6 +182,7 @@ public class GameCanvas extends Canvas {
 
 					playTurn = ++playTurn % 4; // playTurn: 0 ~ 3
 					turnPointer.turn(playTurn);
+
 				} else if (card2.choiceCard(x, y)) {
 					check(cardList.get(0));
 					temp = card2;
@@ -164,11 +197,31 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = card2.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
+						
+						bgm = new Bgm();
+						bgm.setBgmListener(new BgmListener() {
+							
+							@Override
+							public void playLoseBgm() {
+								File bgm = new File("res/뾰로롱.wav");
 
-						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
+								try {
+									AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+									Clip clip = AudioSystem.getClip();
+									clip.open(stream);
+									clip.start();
+
+								} catch (Exception e) {
+
+									e.printStackTrace();
+								}
+							}
+						});
+						bgm.play();
 
 					} else {
-						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
+						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
+								JOptionPane.WARNING_MESSAGE);
 					}
 
 					card2.move(players[playTurn].getX(), players[playTurn].getY());
@@ -182,6 +235,7 @@ public class GameCanvas extends Canvas {
 
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
+
 				} else if (cardDeck.choiceCard(x, y)) {
 					temp = cardList.get(0);
 					temp.zoomIn();
@@ -198,14 +252,12 @@ public class GameCanvas extends Canvas {
 							public void give(int randomPlayer, int randomCard) {
 								int cardType = players[playTurn].takeCard(randomCard);
 								players[randomPlayer].moveToPlayer(cardType);
-
 							}
 
 							@Override
 							public void take(int randomPlayer, int randomCard) {
 								int cardType = players[randomPlayer].takeCard(randomCard);
 								players[playTurn].moveToPlayer(cardType);
-
 							}
 
 						});
@@ -224,11 +276,31 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = cardList.get(0).getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
+						
+						bgm = new Bgm();
+						bgm.setBgmListener(new BgmListener() {
+							
+							@Override
+							public void playLoseBgm() {
+								File bgm = new File("res/뾰로롱.wav");
 
-						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
+								try {
+									AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+									Clip clip = AudioSystem.getClip();
+									clip.open(stream);
+									clip.start();
+
+								} catch (Exception e) {
+
+									e.printStackTrace();
+								}
+							}
+						});
+						bgm.play();
 
 					} else {
-						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
+						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
+								JOptionPane.WARNING_MESSAGE);
 					}
 					cardDeck.move(players[playTurn].getX(), players[playTurn].getY());
 					temp = card2;
@@ -237,8 +309,6 @@ public class GameCanvas extends Canvas {
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
 				}
-
-				// cardList.remove(0);// zoomout역할
 
 			}
 
@@ -255,11 +325,11 @@ public class GameCanvas extends Canvas {
 						// 얘를 해줘야 repaint를 할때 변경된 부분이 적용되어 다시 그려진다.
 						players[i].update();
 					}
-					
+
 					card1.update();
 					card2.update();
 					cardDeck.update();
-          
+
 					// repaint() -> Canvas.update()가 화면을 지움 -> Canvas.paint(g)가 다시 그림
 					repaint(); // 이걸 안하면 시작화면에서 그대로 멈춤(그린걸 지우고 다시 그리지를 않으므로)
 
