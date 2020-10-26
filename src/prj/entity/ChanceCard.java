@@ -9,7 +9,7 @@ import prj.canvas.GameCanvas;
 public class ChanceCard extends Card {
 
 	private Image img;
-	
+
 	public ChanceCard() {
 		this(0);
 	}
@@ -17,7 +17,7 @@ public class ChanceCard extends Card {
 	public ChanceCard(int order) {
 //		setQuestionOrder(order);
 		setCardType(4);
-		
+
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		img = tk.getImage("res/chanceCard.png");
 	}
@@ -26,12 +26,12 @@ public class ChanceCard extends Card {
 	public void paint(Graphics g) {
 		int x = getX();
 		int y = getY();
-		int w = img.getWidth(null)/5;
+		int w = img.getWidth(null) / 5;
 		int h = img.getHeight(null);
-		
-		g.drawImage(img, x, y,x+154,y+218,0,0,w,h, GameCanvas.instance);
-	}
+		int cardW = 154;
+		int cardH = 218;
 
-	
+		g.drawImage(img, x, y, x + cardW, y + cardH, 0, 0, w, h, GameCanvas.instance);
+	}
 
 }

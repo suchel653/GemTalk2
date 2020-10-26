@@ -64,7 +64,7 @@ public class GameCanvas extends Canvas {
 				public void win() {
 					System.out.println("소켓이 없어서 누군지는 모르지만 누군가 승리했습니다!");
 //						winImg = player[playTurn].win();
-					
+
 //						for(int i=0;i<4;i++)
 //							if(i != playTurn)
 //								loseImg = player[i].lose();
@@ -99,7 +99,7 @@ public class GameCanvas extends Canvas {
 		check(cardList.get(0));
 		card2 = cardList.get(0);
 		cardList.remove(0);
-		
+
 		card1.setX(544);
 		card1.setY(245);
 		card2.setX(718);
@@ -120,7 +120,7 @@ public class GameCanvas extends Canvas {
 					check(cardList.get(0)); // 체크하면서 찬스, 행동카드가 나오면 cardList 맨뒤로 보내는 작업
 					Card temp = cardList.get(0);
 //					card1.zoomIn();// zoomin
-					
+
 					players[playTurn].answer(playTurn); // 대답하고 대답한 내용을 띄우기 까지함
 					for (int i = 0; i < 4; i++)
 						if (i != playTurn)
@@ -131,15 +131,13 @@ public class GameCanvas extends Canvas {
 						cardType = card1.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
 
-						
-
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
-
 					card1 = temp;
-					card1.zoomOut();
+					card1.move(players[playTurn].getX(), players[playTurn].getY());
+//					card1.zoomOut();
 					cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
 
 					playTurn = ++playTurn % 4; // playTurn: 0 ~ 3
@@ -165,10 +163,9 @@ public class GameCanvas extends Canvas {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
-
 					card2 = temp;
-					
-					card2.zoomOut();
+					card2.move(players[playTurn].getX(), players[playTurn].getY());
+//					card2.zoomOut();
 					cardList.remove(0);
 
 					playTurn = ++playTurn % 4;
@@ -221,6 +218,7 @@ public class GameCanvas extends Canvas {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
+					cardDeck.move(players[playTurn].getX(), players[playTurn].getY());
 					cardList.remove(0);
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
@@ -243,6 +241,10 @@ public class GameCanvas extends Canvas {
 						// 얘를 해줘야 repaint를 할때 변경된 부분이 적용되어 다시 그려진다.
 						players[i].update();
 					}
+					
+					card1.update();
+					card2.update();
+					cardDeck.update();
 //					if(cardList.get(0) == null) {
 //						
 //						System.exit(0);
