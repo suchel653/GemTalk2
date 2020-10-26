@@ -83,6 +83,7 @@ public abstract class Card {
 	}
 
 	public void giveOrTake(int playTurn) {
+		
 	}
 
 	public int getMissionCount() {

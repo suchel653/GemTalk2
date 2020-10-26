@@ -115,7 +115,7 @@ public class GameCanvas extends Canvas {
 				int y = e.getY();
 				int voteCount = 0;
 				int cardType = 0;
-
+				
 				if (card1.choiceCard(x, y)) {
 					check(cardList.get(0)); // 체크하면서 찬스, 행동카드가 나오면 cardList 맨뒤로 보내는 작업
 					Card temp = cardList.get(0);
