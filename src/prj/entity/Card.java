@@ -5,10 +5,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.Random;
 
+import prj.canvas.GameCanvas;
+
 public abstract class Card {
 
-//	private CardListener listener;
-//	private Random rand;
+	// private CardListener listener;
+	// private Random rand;
 
 	// move 메소드를 위한 좌표
 	private int x;
@@ -114,11 +116,30 @@ public abstract class Card {
 	}
 
 	public void zoomIn() {
+		x = 370;
+		y = 45;
+		
+		width = 500;
+		height = 640;
 
 	}
 
 	public void zoomOut() {
+		// 만약 card1를 클릭시 card1 위치
+		x = 544;
+		y = 245;
 
+		width = 154;
+		height = 218;
+	}
+
+	public void zoomOut2() {
+		// 만약 card2를 클릭시 card2 위치
+		 x = 718;
+		 y = 245;
+
+		width = 154;
+		height = 218;
 	}
 
 	public void giveOrTake(int playTurn) {
@@ -227,8 +248,5 @@ public abstract class Card {
 	public void setSizeIndex(double sizeIndex) {
 		this.sizeIndex = sizeIndex;
 	}
-//	public void setListener(CardListener listener) {
-//		this.listener = listener;
-//	}
 
 }

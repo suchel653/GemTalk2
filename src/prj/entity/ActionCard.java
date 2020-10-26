@@ -66,7 +66,7 @@ public class ActionCard extends Card {
 		int cardW = 154;
 		int cardH = 218;
 
-		g.drawImage(img, x, y, x + cardW, y + cardH, 0 + w * order, 0, w + w * order, h, GameCanvas.instance);
+		g.drawImage(img, x, y, x+getWidth(),y+getHeight(), 0 + w * order, 0, w + w * order, h, GameCanvas.instance);
 	}
 
 	public void setActionListener(ActionCardListener actionListener) {

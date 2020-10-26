@@ -28,10 +28,8 @@ public class ChanceCard extends Card {
 		int y = getY();
 		int w = img.getWidth(null) / 5;
 		int h = img.getHeight(null);
-		int cardW = 154;
-		int cardH = 218;
-
-		g.drawImage(img, x, y, x + cardW, y + cardH, 0, 0, w, h, GameCanvas.instance);
+		
+		g.drawImage(img, x, y,x+getWidth(),y+getHeight(),0,0,w,h, GameCanvas.instance);
 	}
 
 }
