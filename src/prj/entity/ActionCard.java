@@ -63,7 +63,7 @@ public class ActionCard extends Card {
 		int order = getQuestionOrder();
 //		System.out.println("or: "+order);
 
-		g.drawImage(img, x, y, x + 154, y + 218, 0 + w * order, 0, w + w * order, h, GameCanvas.instance);
+		g.drawImage(img, x, y, x+getWidth(),y+getHeight(), 0 + w * order, 0, w + w * order, h, GameCanvas.instance);
 	}
 
 	public void setActionListener(ActionCardListener actionListener) {

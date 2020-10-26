@@ -33,9 +33,12 @@ public class GameCanvas extends Canvas {
 	private Card cardDeck;
 	private Card card1;
 	private Card card2;
+	private Card chanceCard;
 	private Random rand;
 	private GameBoardBackground gameBoardBackground;
 	private Player[] players;
+	private Card temp;
+	// private Card temp2;
 
 	private GameBackground gameBackground;
 	private int playTurn;
@@ -63,12 +66,12 @@ public class GameCanvas extends Canvas {
 				@Override
 				public void win() {
 					System.out.println("소켓이 없어서 누군지는 모르지만 누군가 승리했습니다!");
-//						winImg = player[playTurn].win();
-					
-//						for(int i=0;i<4;i++)
-//							if(i != playTurn)
-//								loseImg = player[i].lose();
-//						System.exit(0);
+					// winImg = player[playTurn].win();
+
+					// for(int i=0;i<4;i++)
+					// if(i != playTurn)
+					// loseImg = player[i].lose();
+					// System.exit(0);
 				}
 			});
 
@@ -99,12 +102,14 @@ public class GameCanvas extends Canvas {
 		check(cardList.get(0));
 		card2 = cardList.get(0);
 		cardList.remove(0);
-		
+
 		card1.setX(544);
 		card1.setY(245);
 		card2.setX(718);
 		card2.setY(245);
 
+		temp = card1;
+		// temp2 = card2;
 		turnPointer = new TurnPointer();
 
 		addMouseListener(new MouseAdapter() {
@@ -118,9 +123,9 @@ public class GameCanvas extends Canvas {
 
 				if (card1.choiceCard(x, y)) {
 					check(cardList.get(0)); // 체크하면서 찬스, 행동카드가 나오면 cardList 맨뒤로 보내는 작업
-					Card temp = cardList.get(0);
-//					card1.zoomIn();// zoomin
-					
+					temp = card1;
+					temp.zoomIn();// zoomin
+
 					players[playTurn].answer(playTurn); // 대답하고 대답한 내용을 띄우기 까지함
 					for (int i = 0; i < 4; i++)
 						if (i != playTurn)
@@ -128,26 +133,27 @@ public class GameCanvas extends Canvas {
 								voteCount++;
 
 					if (voteCount >= 2) {
-						cardType = card1.getCardType();// move - myCard 연계
+						cardType = temp.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
-
-						
 
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
+					// card1 = temp;
+					card1 = cardList.get(0);
+					temp = card1;
 
-					card1 = temp;
+					temp.zoomOut();
 					card1.zoomOut();
 					cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
 
 					playTurn = ++playTurn % 4; // playTurn: 0 ~ 3
 					turnPointer.turn(playTurn);
 				} else if (card2.choiceCard(x, y)) {
-//					gameBoard.zoomIn2();
 					check(cardList.get(0));
-					Card temp = cardList.get(0);
+					temp = card2;
+					temp.zoomIn();
 
 					players[playTurn].answer(playTurn);
 					for (int i = 0; i < 4; i++)
@@ -165,16 +171,18 @@ public class GameCanvas extends Canvas {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
+					card2 = cardList.get(0);
+					temp = card2;
 
-					card2 = temp;
-					
-					card2.zoomOut();
+					temp.zoomOut2();
+					card2.zoomOut2();
 					cardList.remove(0);
 
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
 				} else if (cardDeck.choiceCard(x, y)) {
-//					cardList.get(0).zoomIn();
+					temp = cardList.get(0);
+					temp.zoomIn();
 
 					if (cardList.get(0).getCardType() == 4) {
 						voteCount = 4;
@@ -220,13 +228,13 @@ public class GameCanvas extends Canvas {
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
-
+					temp = card2;
 					cardList.remove(0);
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
 				}
 
-//				cardList.remove(0);// zoomout역할
+				// cardList.remove(0);// zoomout역할
 
 			}
 
@@ -243,10 +251,10 @@ public class GameCanvas extends Canvas {
 						// 얘를 해줘야 repaint를 할때 변경된 부분이 적용되어 다시 그려진다.
 						players[i].update();
 					}
-//					if(cardList.get(0) == null) {
-//						
-//						System.exit(0);
-//					}
+					// if(cardList.get(0) == null) {
+					//
+					// System.exit(0);
+					// }
 					// repaint() -> Canvas.update()가 화면을 지움 -> Canvas.paint(g)가 다시 그림
 					repaint(); // 이걸 안하면 시작화면에서 그대로 멈춤(그린걸 지우고 다시 그리지를 않으므로)
 
@@ -291,6 +299,7 @@ public class GameCanvas extends Canvas {
 		cardDeck.paint(bg);
 		card1.paint(bg);
 		card2.paint(bg);
+		temp.paint(bg);
 		turnPointer.paint(bg);
 
 		g.drawImage(buf, 0, 0, this);

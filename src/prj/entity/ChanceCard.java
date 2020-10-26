@@ -29,7 +29,7 @@ public class ChanceCard extends Card {
 		int w = img.getWidth(null)/5;
 		int h = img.getHeight(null);
 		
-		g.drawImage(img, x, y,x+154,y+218,0,0,w,h, GameCanvas.instance);
+		g.drawImage(img, x, y,x+getWidth(),y+getHeight(),0,0,w,h, GameCanvas.instance);
 	}
 
 	
