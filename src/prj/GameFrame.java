@@ -1,4 +1,4 @@
-package prj;
+	package prj;
 
 import java.awt.Canvas;
 import java.awt.Frame;
