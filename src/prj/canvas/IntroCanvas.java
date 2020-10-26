@@ -22,7 +22,6 @@ public class IntroCanvas extends Canvas {
 
 	public IntroCanvas() {
 		instance = this;
-
 		button1 = new IntroButton(950, 400, 150, 80, 1); // 1 : start
 		button2 = new IntroButton(950, 480, 150, 80, 2); // 2 : rule
 		button3 = new IntroButton(950, 560, 150, 80, 3); // 3 : exit
@@ -43,7 +42,6 @@ public class IntroCanvas extends Canvas {
 
 				if (button1.isSelected(x, y)) { // START
 					try {
-						System.out.println("gamecanvas");
 						GameFrame.instance.switchCanvas(IntroCanvas.this, GameCanvas.class);
 					} catch (InstantiationException e1) {
 						// TODO Auto-generated catch block
@@ -55,7 +53,6 @@ public class IntroCanvas extends Canvas {
 				} else if (button2.isSelected(x, y)) { // HELP
 
 					try {
-						System.out.println("rulecanvas");
 						GameFrame.instance.switchCanvas(IntroCanvas.this, RuleCanvas.class);
 					} catch (InstantiationException e1) {
 						// TODO Auto-generated catch block

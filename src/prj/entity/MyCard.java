@@ -8,9 +8,10 @@ import java.util.Random;
 import prj.canvas.GameCanvas;
 
 public class MyCard {
-
-	// private int cardWidth = 185; // 보석 뒤 배경
-	// private int cardHeight = 200;
+	private int cardWidth = 185; // 보석 뒤 배경
+	private int cardHeight = 200;
+	private int sparkleTime; // 별이 깜빡이는 시간 2초
+	private int sparkle;
 
 	// 화면에 출력할 보석 크기
 	private int gemWidth = 25;
@@ -39,6 +40,10 @@ public class MyCard {
 	private int chanceGemX;
 	private int chanceGemY;
 
+	// 별 좌표
+	private int starX;
+	private int starY;
+
 	// 보석 이미지
 	private Image myCardImg;
 	private Image redGemImg;
@@ -46,6 +51,7 @@ public class MyCard {
 	private Image greenGemImg;
 	private Image blueGemImg;
 	private Image chanceGemImg;
+	private Image starImg;
 
 	private CardStatus[] cardStatus;
 
@@ -56,6 +62,9 @@ public class MyCard {
 	}
 
 	public MyCard(int x, int y) {
+		sparkleTime = 0;
+		sparkle = 0;
+
 		this.x = x;
 		this.y = y;
 
@@ -73,7 +82,8 @@ public class MyCard {
 		chanceGemX = x + 95;
 		chanceGemY = (orangeGemY + greenGemY) / 2;
 
-		cardStatus = new CardStatus[5];
+		starX = x;
+		starY = y;
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		myCardImg = tk.getImage("res/myCard1.png");
@@ -82,6 +92,9 @@ public class MyCard {
 		greenGemImg = tk.getImage("res/greenGem.png");
 		blueGemImg = tk.getImage("res/blueGem.png");
 		chanceGemImg = tk.getImage("res/chanceGem.png");
+		starImg = tk.getImage("res/star.png");
+
+		cardStatus = new CardStatus[5];
 
 		// 처음엔 내가 모은 보석(카드)의 개수가 0개이므로 0으로 초기화
 		int temp = gemY; // gemY값이 보석마다 달라서 바뀌기 때문에 임시변수로 temp로 넣었음
@@ -101,11 +114,12 @@ public class MyCard {
 
 	public void moveToPlayer(int cardType) {
 		gemsCount[cardType]++;
+		sparkleTime = 240; // 카드를 클릭할 때마다 깜빡이는 시간 4초로 설정
 	}
 
 	public int takeCard(int cardType) {
-
 		boolean check = true;
+
 		while (check) {
 			if (gemsCount[cardType] <= 0) // 카드개수가 0이면 뺏을수가 없으니
 				cardType = rand.nextInt(5);
@@ -114,6 +128,7 @@ public class MyCard {
 				gemsCount[cardType]--;
 			}
 		}
+
 		System.out.println("뺏기는 카드타입(0개로 인해 카드타입이 다를 수 있음): " + cardType);
 		return cardType;
 	}
@@ -129,6 +144,14 @@ public class MyCard {
 
 		for (int i = 0; i < 5; i++)
 			cardStatus[i].paint(g); // 얘가 바뀌어야함
+
+//		if (starListener != null && sparkle % 2 == 1) 
+//			starListener.showStar();
+
+		if (sparkle % 2 == 1) {
+			g.drawImage(starImg, starX - 40, starY - 40, 80, 80, GameCanvas.instance);
+			g.drawImage(starImg, starX + cardWidth - 40, starY + cardHeight - 40, 80, 80, GameCanvas.instance);
+		}
 	}
 
 	// MyCard의 보석 개수를 업데이트하는 메서드가 필요할 것 같아서 추가
@@ -149,10 +172,12 @@ public class MyCard {
 			temp += 35;
 		}
 
-//		for (int i = 0; i > 4; i++)
-//			System.out.println(gemsCount[i]); // 찍어보니 잘나옴
-		// myCardListener.onWin();// onWin은 myCard와 missionCard의 타입들을 비교해야하므로 player로
-		// 가는게 나을거 같아요
+		if (sparkleTime >= 0) // sparkleTime != 0으로 하면 무한 깜빡임
+			sparkleTime--;
+
+		if (sparkleTime % 30 == 0) // (1000/30)초 간격으로 깜빡임
+			sparkle++;
+
 	}
 
 	public int[] getGemsCount() {
@@ -163,5 +188,4 @@ public class MyCard {
 		this.gemsCount = gemsCount;
 	}
 
-	
 }

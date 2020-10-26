@@ -16,7 +16,7 @@ public class RuleBackground {
 	private Image img;
 	
 	public RuleBackground() {
-		this(0,0,"res/ruleback.png");
+		this(0,0,"res/ruleBackground.png");
 	}
 
 	public RuleBackground(double x, double y, String imgSrc) {

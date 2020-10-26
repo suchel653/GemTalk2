@@ -5,30 +5,25 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-import javax.swing.plaf.metal.MetalBorders.PaletteBorder;
 
 import prj.entity.ActionCard;
 import prj.entity.ActionCardListener;
 import prj.entity.BlueCard;
 import prj.entity.Card;
 import prj.entity.CardDeck;
-import prj.entity.CardListener;
 import prj.entity.ChanceCard;
 import prj.entity.GameBackground;
 import prj.entity.GameBoardBackground;
 import prj.entity.GreenCard;
-import prj.entity.MyCard;
-import prj.entity.MyCardListener;
 import prj.entity.OrangeCard;
 import prj.entity.Player;
 import prj.entity.PlayerListener;
 import prj.entity.RedCard;
+import prj.entity.TurnPointer;
 
 public class GameCanvas extends Canvas {
 
@@ -46,9 +41,7 @@ public class GameCanvas extends Canvas {
 	private int playTurn;
 
 	private ActionCard actionCard;
-	// private MyCard myCard; // 인터페이스 때문에 정의
-
-//	private PlayerBoard[] playerBoards = new PlayerBoard[4]; // 플레이어 보드 4개 생성
+	private TurnPointer turnPointer;
 
 	public GameCanvas() {
 		instance = this;
@@ -64,23 +57,22 @@ public class GameCanvas extends Canvas {
 		players[2] = new Player(0, 450, 3);
 		players[3] = new Player(700, 450, 4);
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			players[i].setPlayerListener(new PlayerListener() {
 
 				@Override
 				public void win() {
 					System.out.println("소켓이 없어서 누군지는 모르지만 누군가 승리했습니다!");
-					
-
 //						winImg = player[playTurn].win();
 					
 //						for(int i=0;i<4;i++)
 //							if(i != playTurn)
 //								loseImg = player[i].lose();
 //						System.exit(0);
-
 				}
 			});
+
+		}
 
 		cardList = new ArrayList<>();
 		cardDeck = new CardDeck(370, 245);
@@ -112,6 +104,8 @@ public class GameCanvas extends Canvas {
 		card1.setY(245);
 		card2.setX(718);
 		card2.setY(245);
+
+		turnPointer = new TurnPointer();
 
 		addMouseListener(new MouseAdapter() {
 
@@ -149,7 +143,7 @@ public class GameCanvas extends Canvas {
 					cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
 
 					playTurn = ++playTurn % 4; // playTurn: 0 ~ 3
-
+					turnPointer.turn(playTurn);
 				} else if (card2.choiceCard(x, y)) {
 //					gameBoard.zoomIn2();
 					check(cardList.get(0));
@@ -178,6 +172,7 @@ public class GameCanvas extends Canvas {
 					cardList.remove(0);
 
 					playTurn = ++playTurn % 4;
+					turnPointer.turn(playTurn);
 				} else if (cardDeck.choiceCard(x, y)) {
 //					cardList.get(0).zoomIn();
 
@@ -228,6 +223,7 @@ public class GameCanvas extends Canvas {
 
 					cardList.remove(0);
 					playTurn = ++playTurn % 4;
+					turnPointer.turn(playTurn);
 				}
 
 //				cardList.remove(0);// zoomout역할
@@ -295,6 +291,7 @@ public class GameCanvas extends Canvas {
 		cardDeck.paint(bg);
 		card1.paint(bg);
 		card2.paint(bg);
+		turnPointer.paint(bg);
 
 		g.drawImage(buf, 0, 0, this);
 	}
