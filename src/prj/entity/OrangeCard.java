@@ -26,7 +26,8 @@ public class OrangeCard extends Card {
 		int w = img.getWidth(null) / 10;
 		int h = img.getHeight(null);
 		int order = getQuestionOrder();
-    
-		g.drawImage(img, x, y,x+getWidth(),y+getHeight(),0+w*order,0,w+w*order,h, GameCanvas.instance);
+
+		g.drawImage(img, x - getWidth() / 2, y - getHeight() / 2, x + getWidth() / 2, y + getHeight() / 2,
+				0 + w * order, 0, w + w * order, h, GameCanvas.instance);
 	}
 }

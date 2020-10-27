@@ -24,6 +24,7 @@ import prj.entity.Player;
 import prj.entity.PlayerListener;
 import prj.entity.RedCard;
 import prj.entity.TurnPointer;
+import prj.entity.ZoomOutListener;
 
 public class GameCanvas extends Canvas {
 
@@ -49,7 +50,6 @@ public class GameCanvas extends Canvas {
 	public GameCanvas() {
 		instance = this;
 		rand = new Random();
-
 		gameBackground = new GameBackground();
 		gameBoardBackground = new GameBoardBackground(350, 225);
 
@@ -78,7 +78,7 @@ public class GameCanvas extends Canvas {
 		}
 
 		cardList = new ArrayList<>();
-		cardDeck = new CardDeck(370, 245);
+		cardDeck = new CardDeck(370 + 77, 245 + 109);
 
 		for (int i = 0; i < 50; i++)
 			if (i < 10)
@@ -103,10 +103,10 @@ public class GameCanvas extends Canvas {
 		card2 = cardList.get(0);
 		cardList.remove(0);
 
-		card1.setX(544);
-		card1.setY(245);
-		card2.setX(718);
-		card2.setY(245);
+		card1.setX(544 + 77);
+		card1.setY(245 + 109);
+		card2.setX(718 + 77);
+		card2.setY(245 + 109);
 
 		temp = card1;
 		// temp2 = card2;
@@ -125,7 +125,6 @@ public class GameCanvas extends Canvas {
 					check(cardList.get(0)); // 체크하면서 찬스, 행동카드가 나오면 cardList 맨뒤로 보내는 작업
 					temp = card1;
 					temp.zoomIn();// zoomin
-
 					players[playTurn].answer(playTurn); // 대답하고 대답한 내용을 띄우기 까지함
 					for (int i = 0; i < 4; i++)
 						if (i != playTurn)
@@ -135,21 +134,27 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = temp.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
-
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
-					card1.move(players[playTurn].getX(), players[playTurn].getY());
-					card1 = cardList.get(0);
-					temp = card1;
+					temp.move(playTurn);
 
-					temp.zoomOut();
-					card1.zoomOut();
-					cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
+					temp.setZoomOutListener(new ZoomOutListener() {
+
+						@Override
+						public void zoomOut() {
+							card1 = cardList.get(0);
+							temp = card1;
+							temp.zoomOut();
+							card1.zoomOut();
+							cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
+						}
+					});
 
 					playTurn = ++playTurn % 4; // playTurn: 0 ~ 3
 					turnPointer.turn(playTurn);
+
 				} else if (card2.choiceCard(x, y)) {
 					check(cardList.get(0));
 					temp = card2;
@@ -165,23 +170,27 @@ public class GameCanvas extends Canvas {
 						cardType = card2.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
 
-						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
-
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
 
-					card2.move(players[playTurn].getX(), players[playTurn].getY());
+					temp.move(playTurn);
 
-					card2 = cardList.get(0);
-					temp = card2;
+					temp.setZoomOutListener(new ZoomOutListener() {
 
-					temp.zoomOut2();
-					card2.zoomOut2();
-					cardList.remove(0);
+						@Override
+						public void zoomOut() {
+							card2 = cardList.get(0);
+							temp = card2;
+							temp.zoomOut2();
+							card2.zoomOut2();
+							cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
+						}
+					});
 
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
+
 				} else if (cardDeck.choiceCard(x, y)) {
 					temp = cardList.get(0);
 					temp.zoomIn();
@@ -225,15 +234,22 @@ public class GameCanvas extends Canvas {
 						cardType = cardList.get(0).getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
 
-						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
-
 					} else {
 						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
 					}
-					cardDeck.move(players[playTurn].getX(), players[playTurn].getY());
-					temp = card2;
 
-					cardList.remove(0);
+					temp.move(playTurn);
+
+					temp.setZoomOutListener(new ZoomOutListener() {
+
+						@Override
+						public void zoomOut() {
+							System.out.println("템프" + temp.getVx());
+							temp = card2;
+							cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
+						}
+					});
+
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
 				}
@@ -255,11 +271,12 @@ public class GameCanvas extends Canvas {
 						// 얘를 해줘야 repaint를 할때 변경된 부분이 적용되어 다시 그려진다.
 						players[i].update();
 					}
-					
+
 					card1.update();
 					card2.update();
 					cardDeck.update();
-          
+					temp.update();
+
 					// repaint() -> Canvas.update()가 화면을 지움 -> Canvas.paint(g)가 다시 그림
 					repaint(); // 이걸 안하면 시작화면에서 그대로 멈춤(그린걸 지우고 다시 그리지를 않으므로)
 
@@ -301,12 +318,12 @@ public class GameCanvas extends Canvas {
 		for (int i = 0; i < 4; i++)
 			players[i].paint(bg);
 
+		turnPointer.paint(bg);
 		cardDeck.paint(bg);
 		card1.paint(bg);
 		card2.paint(bg);
 		temp.paint(bg);
-		turnPointer.paint(bg);
-
+		
 		g.drawImage(buf, 0, 0, this);
 	}
 

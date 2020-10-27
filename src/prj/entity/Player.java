@@ -107,11 +107,11 @@ public class Player {
 			playerListener.win();
 
 	}
-	
+
 //	public winImg win() {
 //		return new WinImg();
 //	}
-	
+
 //	public loseImg lose() {
 //		return new LoseImg();
 //	}
