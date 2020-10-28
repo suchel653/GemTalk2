@@ -323,7 +323,7 @@ public class GameCanvas extends Canvas {
 		card1.paint(bg);
 		card2.paint(bg);
 		temp.paint(bg);
-		
+
 		g.drawImage(buf, 0, 0, this);
 	}
 
