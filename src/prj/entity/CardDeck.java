@@ -18,7 +18,7 @@ public class CardDeck extends Card {
 	}
 
 	public CardDeck(int x, int y) {
-		super(x,y,"res/cardDeck.png");
+		super(x, y, "res/cardDeck.png");
 
 		this.x = x; // 355 + 20
 		this.y = y; // 225 + 20
@@ -30,7 +30,8 @@ public class CardDeck extends Card {
 		width = img.getWidth(null);
 		height = img.getHeight(null);
 
-		g.drawImage(img, x, y, GameCanvas.instance);
+		g.drawImage(img, x - getWidth() / 2, y - getHeight() / 2, x + getWidth() / 2, y + getHeight() / 2, 0, 0, width,
+				height, GameCanvas.instance);
 	}
 
 	public int getX() {

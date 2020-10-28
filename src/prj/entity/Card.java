@@ -15,10 +15,10 @@ public abstract class Card {
 	// move 메소드를 위한 좌표
 	private int x;
 	private int y;
-	private int dx;
-	private int dy;
-	private int vx;
-	private int vy;
+	private double dx;
+	private double dy;
+	private double vx;
+	private double vy;
 	private int speed;
 
 	private int questionOrder; // 10개의 질문을 구분하는 변수
@@ -33,6 +33,8 @@ public abstract class Card {
 	// 카드 갯수 카운트?
 	private int missionCount;
 
+	private ZoomOutListener zoomOutListener;
+
 	// 인자가 없는 생성자
 	public Card() {
 		this(0, 0);
@@ -45,7 +47,6 @@ public abstract class Card {
 	public Card(int order, String string) {
 		this(0, 0, string);
 		questionOrder = order;
-
 	}
 
 	// 인자가 있는 생성자
@@ -67,58 +68,82 @@ public abstract class Card {
 	public abstract void paint(Graphics g);
 
 	public boolean choiceCard(int x, int y) {
+
 		int w = width;
 		int h = height;
-		int x1 = this.x;
-		int y1 = this.y;
+		int x1 = this.x - w / 2;
+		int y1 = this.y - h / 2;
 		int x2 = x1 + w;
 		int y2 = y1 + h;
 
 		if ((x1 < x && x < x2) && (y1 < y && y < y2)) {
-
 			return true;
 		} else {
-
 			return false;
 		}
 	}
 
-	public void move(int dx, int dy) {
+	public void move(int playTurn) {
 
-		this.dx = dx;
-		this.dy = dy;
+		switch (playTurn) {
+		case 0:
+			dx = 350 + 75;
+			dy = 45 + 75;
+			break;
+		case 1:
+			dx = 700 + 75 + 200;
+			dy = 45 + 75;
+			break;
+		case 2:
+			dx = 350 + 75;
+			dy = 445 + 75;
+			break;
+		case 3:
+			dx = 700 + 75;
+			dy = 445 + 75;
+			break;
+		}
 
-		int w = this.dx - this.x;
-		int h = this.dy - this.y;
-		int d = (int) Math.sqrt(w * w + h * h);
-
-//		setVx(w / d * speed);
-//		setVy(h / d * speed);
-		this.vx = w * speed / d;
-		this.vy = h * speed / d;
-		System.out.println(vx);
-		System.out.println(vy);
+		double w = this.dx - this.x;
+		double h = this.dy - this.y;
+		double d = (int) Math.sqrt(w * w + h * h);
+		this.vx = w * 3 / d;
+		this.vy = h * 3 / d;
 
 	}
 
 	public void update() {
 
-		if ((dx - 15 <= x && x <= dx + 15) && (dy - 15 <= y && y <= dy + 15)) {
+//		if (Math.abs(dx - x) <= 30 && Math.abs(dy - y) <= 30) {
+		if (width <= 10 && height <= 10) {
 			vx = 0;
 			vy = 0;
+//			System.out.println("update : " + vx);
 		}
+
+		if (vx != 0 || vy != 0) {
+			width *= 0.97;
+			height *= 0.97;
+//			width -= 5;
+//			height -= 6.4;
+		}
+
+		if (zoomOutListener != null && vx == 0 && vy == 0)
+			zoomOutListener.zoomOut();
+
+//		System.out.println(this.width);
+//		System.out.println(this.height);
 
 		x += vx;
 		y += vy;
 
-		sizeIndex *= 0.9;
-
 	}
 
 	public void zoomIn() {
-		x = 370;
-		y = 45;
-		
+
+		x = 544 + 77;
+		y = 245 + 109;
+
 		width = 500;
 		height = 640;
 
@@ -126,8 +151,8 @@ public abstract class Card {
 
 	public void zoomOut() {
 		// 만약 card1를 클릭시 card1 위치
-		x = 544;
-		y = 245;
+		x = 544 + 77;
+		y = 245 + 109;
 
 		width = 154;
 		height = 218;
@@ -135,8 +160,8 @@ public abstract class Card {
 
 	public void zoomOut2() {
 		// 만약 card2를 클릭시 card2 위치
-		 x = 718;
-		 y = 245;
+		x = 718 + 77;
+		y = 245 + 109;
 
 		width = 154;
 		height = 218;
@@ -197,8 +222,8 @@ public abstract class Card {
 		return width;
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
+	public void setWidth(double width) {
+		this.width = (int) width;
 	}
 
 	public int getHeight() {
@@ -209,31 +234,35 @@ public abstract class Card {
 		this.height = height;
 	}
 
-	public int getDx() {
+	public double getDx() {
 		return dx;
 	}
 
-	public void setDx(int dx) {
+	public void setDx(double dx) {
 		this.dx = dx;
 	}
 
-	public int getDy() {
+	public double getDy() {
 		return dy;
 	}
 
-	public void setDy(int dy) {
+	public void setDy(double dy) {
 		this.dy = dy;
 	}
 
-	public int getVx() {
+	public void setVy(double vy) {
+		this.vy = vy;
+	}
+
+	public double getVx() {
 		return vx;
 	}
 
-	public void setVx(int vx) {
-		this.vx = vx;
+	public void setVx(double vx2) {
+		this.vx = vx2;
 	}
 
-	public int getVy() {
+	public double getVy() {
 		return vy;
 	}
 
@@ -247,6 +276,10 @@ public abstract class Card {
 
 	public void setSizeIndex(double sizeIndex) {
 		this.sizeIndex = sizeIndex;
+	}
+
+	public void setZoomOutListener(ZoomOutListener zoomOutListener) {
+		this.zoomOutListener = zoomOutListener;
 	}
 
 }
