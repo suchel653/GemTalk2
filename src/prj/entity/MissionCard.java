@@ -37,7 +37,7 @@ public class MissionCard {
 	private Image blueGemImg;
 	private CardStatus[] cardStatus;
 
-	private int max = 6;
+	private int max = 1;
 	private Card[] cards;
 	private Random rand = new Random();
 

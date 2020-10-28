@@ -363,7 +363,12 @@ public class GameCanvas extends Canvas {
 					temp.update();
 					if(win != null) {
 						System.out.println("aa");
-						win.update();
+						try {
+							win.update();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 					// repaint() -> Canvas.update()가 화면을 지움 -> Canvas.paint(g)가 다시 그림
 					repaint(); // 이걸 안하면 시작화면에서 그대로 멈춤(그린걸 지우고 다시 그리지를 않으므로)

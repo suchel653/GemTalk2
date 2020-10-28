@@ -42,12 +42,15 @@ public class Win {
 				GameCanvas.instance);
 	}
 
-	public void update() {
+	public void update() throws InterruptedException {
 		y = y-5;
 
 		System.out.println(y);
-		if (y <= 50)
+		if (y <= 50) {
 			y = 50;
+			Thread.sleep(10000);
+			System.exit(0);
+		}
 	}
 
 }
