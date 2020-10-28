@@ -1,4 +1,4 @@
-	package prj;
+package prj;
 
 import java.awt.Canvas;
 import java.awt.Frame;
@@ -37,6 +37,7 @@ public class GameFrame extends Frame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(stream);
 			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 
 		} catch (Exception e) {
 
@@ -58,15 +59,14 @@ public class GameFrame extends Frame {
 
 	}
 
-	public void switchCanvas(Canvas oldCanvas, Class newCanvas)
-			throws InstantiationException, IllegalAccessException {
+	public void switchCanvas(Canvas oldCanvas, Class newCanvas) throws InstantiationException, IllegalAccessException {
 		Canvas canvas;
 //		remove(oldCanvas);
-		if(newCanvas.getName().equals("prj.canvas.GameCanvas"))
+		if (newCanvas.getName().equals("prj.canvas.GameCanvas"))
 			canvas = this.gameCanvas;
 		else
 			canvas = (Canvas) newCanvas.newInstance();
-		
+
 		add(canvas);
 		oldCanvas.setVisible(false);
 		revalidate();
