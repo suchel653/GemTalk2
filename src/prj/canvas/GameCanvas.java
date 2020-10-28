@@ -385,7 +385,7 @@ public class GameCanvas extends Canvas {
 		Graphics bg = buf.getGraphics();
 
 		gameBackground.paint(bg);
-		gameBoardBackground.paint(bg);
+//		gameBoardBackground.paint(bg);
 
 		for (int i = 0; i < 4; i++)
 			players[i].paint(bg);

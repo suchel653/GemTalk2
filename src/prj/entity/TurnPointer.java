@@ -33,7 +33,7 @@ public class TurnPointer {
 		int y2 = 510;
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		img = tk.getImage("res/arrowPointer" + this.playTurn + ".png");
+		img = tk.getImage("res/arrowPointer0" + this.playTurn + ".png");
 
 		int w = img.getWidth(null); // 364
 		int h = img.getHeight(null); // 208
