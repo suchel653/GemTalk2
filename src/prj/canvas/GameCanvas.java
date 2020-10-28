@@ -389,7 +389,7 @@ public class GameCanvas extends Canvas {
 		Graphics bg = buf.getGraphics();
 
 		gameBackground.paint(bg);
-		gameBoardBackground.paint(bg);
+//		gameBoardBackground.paint(bg);
 
 		for (int i = 0; i < 4; i++)
 			players[i].paint(bg);
@@ -399,7 +399,7 @@ public class GameCanvas extends Canvas {
 		card1.paint(bg);
 		card2.paint(bg);
 		temp.paint(bg);
-		
+
 		g.drawImage(buf, 0, 0, this);
 	}
 

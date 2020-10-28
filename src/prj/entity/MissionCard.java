@@ -64,7 +64,7 @@ public class MissionCard {
 		cards = new Card[4];
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		missionCardImg = tk.getImage("res/missionCard1.png");
+		missionCardImg = tk.getImage("res/missionCard.png");
 		redGemImg = tk.getImage("res/redGem.png");
 		orangeGemImg = tk.getImage("res/orangeGem.png");
 		greenGemImg = tk.getImage("res/greenGem.png");

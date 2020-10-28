@@ -86,7 +86,7 @@ public class MyCard {
 		starY = y;
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		myCardImg = tk.getImage("res/myCard1.png");
+		myCardImg = tk.getImage("res/myCard.png");
 		redGemImg = tk.getImage("res/redGem.png");
 		orangeGemImg = tk.getImage("res/orangeGem.png");
 		greenGemImg = tk.getImage("res/greenGem.png");
