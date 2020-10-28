@@ -144,7 +144,7 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = temp.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
-
+						temp.move(playTurn);
 						bgm = new Bgm();
 						bgm.setBgmListener(new BgmListener() {
 							
@@ -169,9 +169,10 @@ public class GameCanvas extends Canvas {
 					} else {
 						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
 								JOptionPane.WARNING_MESSAGE);
+						temp = card1;
 					}
 
-					temp.move(playTurn);
+					
 
 					temp.setZoomOutListener(new ZoomOutListener() {
 
@@ -202,7 +203,7 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = card2.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
-						
+						temp.move(playTurn);
 						bgm = new Bgm();
 						bgm.setBgmListener(new BgmListener() {
 							
@@ -227,9 +228,10 @@ public class GameCanvas extends Canvas {
 					} else {
 						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
 								JOptionPane.WARNING_MESSAGE);
+						temp = card2;
 					}
 
-					temp.move(playTurn);
+					
 
 					temp.setZoomOutListener(new ZoomOutListener() {
 
@@ -251,6 +253,7 @@ public class GameCanvas extends Canvas {
 					temp.zoomIn();
 
 					if (cardList.get(0).getCardType() == 4) {
+//						JOptionPane.sh
 						voteCount = 4;
 						System.out.println("lucky");
 
@@ -286,7 +289,7 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = cardList.get(0).getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
-						
+						temp.move(playTurn);
 						bgm = new Bgm();
 						bgm.setBgmListener(new BgmListener() {
 							
@@ -310,9 +313,10 @@ public class GameCanvas extends Canvas {
 					} else {
 						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
 								JOptionPane.WARNING_MESSAGE);
+						temp=card2;
 					}
 
-					temp.move(playTurn);
+					
 
 					temp.setZoomOutListener(new ZoomOutListener() {
 
