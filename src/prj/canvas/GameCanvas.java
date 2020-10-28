@@ -5,13 +5,21 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JOptionPane;
+
 import prj.entity.ActionCard;
 import prj.entity.ActionCardListener;
+import prj.entity.Bgm;
+import prj.entity.BgmListener;
 import prj.entity.BlueCard;
 import prj.entity.Card;
 import prj.entity.CardDeck;
@@ -46,6 +54,8 @@ public class GameCanvas extends Canvas {
 
 	private ActionCard actionCard;
 	private TurnPointer turnPointer;
+	
+	private Bgm bgm;
 
 	public GameCanvas() {
 		instance = this;
@@ -134,8 +144,31 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = temp.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
+
+						bgm = new Bgm();
+						bgm.setBgmListener(new BgmListener() {
+							
+							@Override
+							public void playLoseBgm() {
+								File bgm = new File("res/뾰로롱.wav");
+
+								try {
+									AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+									Clip clip = AudioSystem.getClip();
+									clip.open(stream);
+									clip.start();
+
+								} catch (Exception e) {
+
+									e.printStackTrace();
+								}
+							}
+						});
+						bgm.play();
+            
 					} else {
-						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
+						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
+								JOptionPane.WARNING_MESSAGE);
 					}
 
 					temp.move(playTurn);
@@ -169,9 +202,31 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = card2.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
+						
+						bgm = new Bgm();
+						bgm.setBgmListener(new BgmListener() {
+							
+							@Override
+							public void playLoseBgm() {
+								File bgm = new File("res/뾰로롱.wav");
+
+								try {
+									AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+									Clip clip = AudioSystem.getClip();
+									clip.open(stream);
+									clip.start();
+
+								} catch (Exception e) {
+
+									e.printStackTrace();
+								}
+							}
+						});
+						bgm.play();
 
 					} else {
-						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
+						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
+								JOptionPane.WARNING_MESSAGE);
 					}
 
 					temp.move(playTurn);
@@ -207,14 +262,12 @@ public class GameCanvas extends Canvas {
 							public void give(int randomPlayer, int randomCard) {
 								int cardType = players[playTurn].takeCard(randomCard);
 								players[randomPlayer].moveToPlayer(cardType);
-
 							}
 
 							@Override
 							public void take(int randomPlayer, int randomCard) {
 								int cardType = players[randomPlayer].takeCard(randomCard);
 								players[playTurn].moveToPlayer(cardType);
-
 							}
 
 						});
@@ -233,9 +286,30 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = cardList.get(0).getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
+						
+						bgm = new Bgm();
+						bgm.setBgmListener(new BgmListener() {
+							
+							@Override
+							public void playLoseBgm() {
+								File bgm = new File("res/뾰로롱.wav");
+
+								try {
+									AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+									Clip clip = AudioSystem.getClip();
+									clip.open(stream);
+									clip.start();
+								} catch (Exception e) {
+
+									e.printStackTrace();
+								}
+							}
+						});
+						bgm.play();
 
 					} else {
-						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
+						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
+								JOptionPane.WARNING_MESSAGE);
 					}
 
 					temp.move(playTurn);
@@ -253,8 +327,6 @@ public class GameCanvas extends Canvas {
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
 				}
-
-				// cardList.remove(0);// zoomout역할
 
 			}
 

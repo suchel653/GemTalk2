@@ -54,8 +54,8 @@ public class Player {
 
 	public int vote() {
 
-		Object options[] = { "O", "X" };
-		int input = JOptionPane.showOptionDialog(GameCanvas.instance, "찬성하면 O, 반대하면 X를 눌러주세요", "찬/반 선택",
+		Object options[] = { "⭕", "❌" };
+		int input = JOptionPane.showOptionDialog(GameCanvas.instance, "답변이 만족스럽다면 O, 아니라면 X를 눌러주세요", "O/X 선택",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 		return input;
