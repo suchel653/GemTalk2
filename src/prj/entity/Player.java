@@ -58,7 +58,7 @@ public class Player {
 	public int vote() {
 
 		Object options[] = { "⭕", "❌" };
-		int input = JOptionPane.showOptionDialog(null, "답변이 만족스럽다면 O, 아니라면 X를 눌러주세요", "O/X 선택",
+		int input = JOptionPane.showOptionDialog(GameCanvas.instance, "답변이 만족스럽다면 O, 아니라면 X를 눌러주세요", "O/X 선택",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 		return input;
@@ -68,7 +68,7 @@ public class Player {
 		boolean isCancel = true;
 		
 		String text = "";
-		String answer = JOptionPane.showInputDialog(null, "질문의 답변을 입력하세요", "답변", JOptionPane.QUESTION_MESSAGE);
+		String answer = JOptionPane.showInputDialog(GameCanvas.instance, "질문의 답변을 입력하세요", "답변", JOptionPane.QUESTION_MESSAGE);
 		
 		while(isCancel) {
 			 if(answer != null) {
@@ -76,10 +76,10 @@ public class Player {
 				 isCancel = false;
 			 }
 			 else
-				 answer = JOptionPane.showInputDialog(null, "질문의 답변을 해주세요", "답변이 입력되지 않았습니다!!", JOptionPane.ERROR_MESSAGE);
+				 answer = JOptionPane.showInputDialog(GameCanvas.instance, "질문의 답변을 해주세요", "답변이 입력되지 않았습니다!!", JOptionPane.ERROR_MESSAGE);
 		}
 
-		JOptionPane.showMessageDialog(null, answer, text, JOptionPane.INFORMATION_MESSAGE);				 
+		JOptionPane.showMessageDialog(GameCanvas.instance, answer, text, JOptionPane.INFORMATION_MESSAGE);				 
 	}
 
 	// 윈을 체크하는 메소드
