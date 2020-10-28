@@ -1,4 +1,4 @@
-	package prj;
+package prj;
 
 import java.awt.Canvas;
 import java.awt.Frame;
@@ -12,6 +12,7 @@ import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
 
 import prj.canvas.GameCanvas;
+import prj.canvas.GameCanvasListener;
 import prj.canvas.IntroCanvas;
 import prj.canvas.RuleCanvas;
 
@@ -20,6 +21,7 @@ public class GameFrame extends Frame {
 	private IntroCanvas introCanvas;
 	private RuleCanvas ruleCanvas;
 	private GameCanvas gameCanvas;
+	private Clip clip;
 
 	public GameFrame() {
 		instance = this;
@@ -34,7 +36,7 @@ public class GameFrame extends Frame {
 
 		try {
 			AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
-			Clip clip = AudioSystem.getClip();
+			clip = AudioSystem.getClip();
 			clip.open(stream);
 			clip.start();
 
@@ -42,6 +44,15 @@ public class GameFrame extends Frame {
 
 			e.printStackTrace();
 		}
+
+		gameCanvas.setCanvasListener(new GameCanvasListener() {
+
+			@Override
+			public void win() {
+				clip.stop();
+
+			}
+		});
 
 		addWindowListener(new WindowAdapter() {
 
@@ -58,15 +69,14 @@ public class GameFrame extends Frame {
 
 	}
 
-	public void switchCanvas(Canvas oldCanvas, Class newCanvas)
-			throws InstantiationException, IllegalAccessException {
+	public void switchCanvas(Canvas oldCanvas, Class newCanvas) throws InstantiationException, IllegalAccessException {
 		Canvas canvas;
 //		remove(oldCanvas);
-		if(newCanvas.getName().equals("prj.canvas.GameCanvas"))
+		if (newCanvas.getName().equals("prj.canvas.GameCanvas"))
 			canvas = this.gameCanvas;
 		else
 			canvas = (Canvas) newCanvas.newInstance();
-		
+
 		add(canvas);
 		oldCanvas.setVisible(false);
 		revalidate();

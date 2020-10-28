@@ -32,12 +32,16 @@ import prj.entity.Player;
 import prj.entity.PlayerListener;
 import prj.entity.RedCard;
 import prj.entity.TurnPointer;
+import prj.entity.Win;
 import prj.entity.ZoomOutListener;
 
 public class GameCanvas extends Canvas {
 
 	public static Canvas instance;
-
+	private GameCanvasListener canvasListener;
+	
+	private Win win;
+	
 	private List<Card> cardList;
 	private Card cardDeck;
 	private Card card1;
@@ -75,6 +79,11 @@ public class GameCanvas extends Canvas {
 
 				@Override
 				public void win() {
+					System.out.println(playTurn);
+					if(win == null)
+						win = new Win(playTurn);
+					
+					canvasListener.win();
 					System.out.println("소켓이 없어서 누군지는 모르지만 누군가 승리했습니다!");
 //						winImg = player[playTurn].win();
 
@@ -347,12 +356,15 @@ public class GameCanvas extends Canvas {
 						// 얘를 해줘야 repaint를 할때 변경된 부분이 적용되어 다시 그려진다.
 						players[i].update();
 					}
-
+					
 					card1.update();
 					card2.update();
 					cardDeck.update();
 					temp.update();
-
+					if(win != null) {
+						System.out.println("aa");
+						win.update();
+					}
 					// repaint() -> Canvas.update()가 화면을 지움 -> Canvas.paint(g)가 다시 그림
 					repaint(); // 이걸 안하면 시작화면에서 그대로 멈춤(그린걸 지우고 다시 그리지를 않으므로)
 
@@ -399,6 +411,8 @@ public class GameCanvas extends Canvas {
 		card1.paint(bg);
 		card2.paint(bg);
 		temp.paint(bg);
+		if(win != null)
+			win.paint(bg);
 
 		g.drawImage(buf, 0, 0, this);
 	}
@@ -407,5 +421,11 @@ public class GameCanvas extends Canvas {
 	public void update(Graphics g) {
 		paint(g);
 	}
+
+	public void setCanvasListener(GameCanvasListener canvasListener) {
+		this.canvasListener = canvasListener;
+	}
+	
+	
 
 }
