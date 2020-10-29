@@ -39,29 +39,25 @@ public class IntroCanvas extends Canvas {
 				int x = e.getX();
 				int y = e.getY();
 
-				if (button1.isSelected(x, y)) { // START
+				if (button1.isSelected(x, y)) {
 					try {
 						GameFrame.instance.switchCanvas(IntroCanvas.this, GameCanvas.class);
 					} catch (InstantiationException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (IllegalAccessException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				} else if (button2.isSelected(x, y)) { // HELP
+				} else if (button2.isSelected(x, y)) {
 
 					try {
 						GameFrame.instance.switchCanvas(IntroCanvas.this, RuleCanvas.class);
 					} catch (InstantiationException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (IllegalAccessException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
-				} else if (button3.isSelected(x, y)) { // EXIT 할 때 구현 필요
+				} else if (button3.isSelected(x, y)) {
 					System.exit(0);
 				}
 

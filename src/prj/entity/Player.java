@@ -13,8 +13,8 @@ import prj.canvas.GameCanvas;
 
 public class Player {
 
-	private int x; // 플레이어 캐릭터 좌표 x
-	private int y; // 플레이어 캐릭터 좌표 y
+	private int x;
+	private int y;
 	private int width = 150;
 	private int height = 150;
 	private Image img;
@@ -120,13 +120,6 @@ public class Player {
 
 	}
 
-//	public winImg win() {
-//		return new WinImg();
-//	}
-
-//	public loseImg lose() {
-//		return new LoseImg();
-//	}
 
 	public void paint(Graphics g) {
 		missionCard.paint(g);
@@ -166,7 +159,6 @@ public class Player {
 	}
 
 	public void update() {
-		// missionCard.update();
 		myCard.update();
 		onWin();
 	}

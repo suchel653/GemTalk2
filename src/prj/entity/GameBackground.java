@@ -19,17 +19,6 @@ public class GameBackground {
 	private int height;
 	private Image img;
 
-	// 배경화면만 static 활용(player, card는 toolkit 사용)
-//	private static Image img; 
-
-//	static {
-//		try {
-//			img = ImageIO.read(new File("res/gameBackground1.png"));
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	public GameBackground() {
 		this(0, 0);
 	}
@@ -41,7 +30,6 @@ public class GameBackground {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		img = tk.getImage("res/mapleBg.gif");
 
-//		Image img = getImage(); 
 		width = img.getWidth(null);
 		height = img.getHeight(null);
 	}

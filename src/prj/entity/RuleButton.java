@@ -45,8 +45,6 @@ public class RuleButton {
 	}
 
 	public boolean click(int x2, int y2) {
-		System.out.println("x2: " + x2);
-		System.out.println("y2: " + y2);
 		if ((x <= x2 && x2 <= x + width) && (y <= y2 && y2 <= y + height))
 			return true;
 

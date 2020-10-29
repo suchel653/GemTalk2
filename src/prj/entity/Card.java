@@ -9,10 +9,6 @@ import prj.canvas.GameCanvas;
 
 public abstract class Card {
 
-	// private CardListener listener;
-	// private Random rand;
-
-	// move 메소드를 위한 좌표
 	private int x;
 	private int y;
 	private double dx;
@@ -24,18 +20,15 @@ public abstract class Card {
 	private int questionOrder; // 10개의 질문을 구분하는 변수
 	private int cardType; // 0:red, 1:orange, 2:green, 3:blue, 4:chance, 5:action
 
-	// 카드 사이즈
 	private int width;
 	private int height;
 	private Image img;
 	private double sizeIndex;
 
-	// 카드 갯수 카운트?
 	private int missionCount;
 
 	private ZoomOutListener zoomOutListener;
 
-	// 인자가 없는 생성자
 	public Card() {
 		this(0, 0);
 	}
@@ -49,14 +42,13 @@ public abstract class Card {
 		questionOrder = order;
 	}
 
-	// 인자가 있는 생성자
 	public Card(int x, int y, String imgSrc) {
 
 		this.x = x;
 		this.y = y;
 
-		width = 154; // 카드 이미지 너비 ->이거는 생성자에
-		height = 218; // 카드 이미지 높이 ->이거는 생성자에
+		width = 154; 
+		height = 218;
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		img = tk.getImage(imgSrc);
@@ -114,25 +106,18 @@ public abstract class Card {
 
 	public void update() {
 
-//		if (Math.abs(dx - x) <= 30 && Math.abs(dy - y) <= 30) {
 		if (width <= 10 && height <= 10) {
 			vx = 0;
 			vy = 0;
-//			System.out.println("update : " + vx);
 		}
 
 		if (vx != 0 || vy != 0) {
 			width *= 0.97;
 			height *= 0.97;
-//			width -= 5;
-//			height -= 6.4;
 		}
 
 		if (zoomOutListener != null && vx == 0 && vy == 0)
 			zoomOutListener.zoomOut();
-
-//		System.out.println(this.width);
-//		System.out.println(this.height);
 
 		x += vx;
 		y += vy;
@@ -150,7 +135,6 @@ public abstract class Card {
 	}
 
 	public void zoomOut() {
-		// 만약 card1를 클릭시 card1 위치
 		x = 544 + 77;
 		y = 245 + 109;
 
@@ -159,7 +143,6 @@ public abstract class Card {
 	}
 
 	public void zoomOut2() {
-		// 만약 card2를 클릭시 card2 위치
 		x = 718 + 77;
 		y = 245 + 109;
 
