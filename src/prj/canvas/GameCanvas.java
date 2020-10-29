@@ -262,11 +262,12 @@ public class GameCanvas extends Canvas {
 					temp.zoomIn();
 
 					if (cardList.get(0).getCardType() == 4) {
-//						JOptionPane.sh
+						JOptionPane.showMessageDialog(instance, "찬스카드를 획득하셨습니다.","축하합니다!!",JOptionPane.INFORMATION_MESSAGE);
 						voteCount = 4;
 						System.out.println("lucky");
 
 					} else if (cardList.get(0).getCardType() == 5) {
+						JOptionPane.showMessageDialog(instance, "행동카드를 획득하셨습니다.","좋을지? 나쁠지?",JOptionPane.WARNING_MESSAGE);
 						actionCard = (ActionCard) cardList.get(0);
 						actionCard.setActionListener(new ActionCardListener() {
 
