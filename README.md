@@ -28,3 +28,10 @@
 ## Tech
 - [x] Java JDK 14
 - [x] AWT(Abstract Window Toolkit)
+
+## 다운로드
+```
+$ git clone https://github.com/cbw1030/GemTalk2.git
+$ clipse or IJ 사용하여 GemTalk2/src/prj/Program.java 실행
+※ 실행시 오디오 출력이 가능해야함
+```
