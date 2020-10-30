@@ -330,6 +330,7 @@ public class GameCanvas extends Canvas {
 					} else {
 						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
 								JOptionPane.WARNING_MESSAGE);
+						temp = card2;
 					}
 
 					temp.setZoomOutListener(new ZoomOutListener() {
