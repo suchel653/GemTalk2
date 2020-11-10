@@ -72,7 +72,6 @@ public class GameFrame extends Frame {
 
 	public void switchCanvas(Canvas oldCanvas, Class newCanvas) throws InstantiationException, IllegalAccessException {
 		Canvas canvas;
-//		remove(oldCanvas);
 		if (newCanvas.getName().equals("prj.canvas.GameCanvas"))
 			canvas = this.gameCanvas;
 		else

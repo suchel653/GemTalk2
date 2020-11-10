@@ -9,14 +9,11 @@ import prj.canvas.GameCanvas;
 
 public class MissionCard {
 
-	// private int cardWidth = 102; // 보석 뒤 배경
-	// private int cardHeight = 200;
-
-	private int gemWidth = 25; // 보석
+	private int gemWidth = 25; 
 	private int gemHeight = 25;
 
-	private int x; // 미션 카드 좌표 x
-	private int y; // 미션 카드 좌표 y
+	private int x;
+	private int y;
 
 	private int gemX;
 	private int gemY;
@@ -77,7 +74,6 @@ public class MissionCard {
 
 		cardStatus = new CardStatus[4];
 
-		// 카드별 개수 정하기
 		for (int i = 0; i < max; i++) {
 			boolean ch = true;
 			int color = rand.nextInt(4);
@@ -92,7 +88,6 @@ public class MissionCard {
 			}
 		}
 
-		// 미션 카드에 "X 개수" 글자 찍기
 		int temp = gemY;
 		for (int i = 0; i < 4; i++) {
 			String status = "X " + Integer.toString(cards[i].getMissionCount());
@@ -113,7 +108,6 @@ public class MissionCard {
 	}
 
 	public void update() {
-		// 얘는 굳이 구현할 필요가 있을까? 메서드를 삭제할까? - 10/22 19:04 조재희 -
 	}
 
 	public Card[] getCards() {

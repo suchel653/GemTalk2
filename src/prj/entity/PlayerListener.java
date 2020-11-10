@@ -4,5 +4,4 @@ public interface PlayerListener {
 
 	void win();
 	
-	//void moveToPlayer();
 }

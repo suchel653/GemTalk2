@@ -10,7 +10,7 @@ public class Bgm {
 
 	public void play() {
 		if (bgmListener != null)
-			bgmListener.playLoseBgm();
+			bgmListener.playgetCardBgm();
 	}
 	
 	public void setBgmListener(BgmListener bgmListener) {

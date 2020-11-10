@@ -13,8 +13,8 @@ import prj.canvas.GameCanvas;
 
 public class Player {
 
-	private int x; // 플레이어 캐릭터 좌표 x
-	private int y; // 플레이어 캐릭터 좌표 y
+	private int x;
+	private int y;
 	private int width = 150;
 	private int height = 150;
 	private Image img;
@@ -58,7 +58,7 @@ public class Player {
 	public int vote() {
 
 		Object options[] = { "⭕", "❌" };
-		int input = JOptionPane.showOptionDialog(null, "답변이 만족스럽다면 O, 아니라면 X를 눌러주세요", "O/X 선택",
+		int input = JOptionPane.showOptionDialog(GameCanvas.instance, "답변이 만족스럽다면 O, 아니라면 X를 눌러주세요", "O/X 선택",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 		return input;
@@ -76,10 +76,14 @@ public class Player {
 				 isCancel = false;
 			 }
 			 else
+<<<<<<< HEAD
 				 answer = JOptionPane.showInputDialog(GameCanvas.instance.locate(1000, 500), "질문의 답변을 해주세요", "답변이 입력되지 않았습니다!!", JOptionPane.ERROR_MESSAGE);
+=======
+				 answer = JOptionPane.showInputDialog(GameCanvas.instance, "질문의 답변을 해주세요", "답변이 입력되지 않았습니다!!", JOptionPane.ERROR_MESSAGE);
+>>>>>>> jaehee/main
 		}
 
-		JOptionPane.showMessageDialog(null, answer, text, JOptionPane.INFORMATION_MESSAGE);				 
+		JOptionPane.showMessageDialog(GameCanvas.instance, answer, text, JOptionPane.INFORMATION_MESSAGE);				 
 	}
 
 	// 윈을 체크하는 메소드
@@ -120,13 +124,6 @@ public class Player {
 
 	}
 
-//	public winImg win() {
-//		return new WinImg();
-//	}
-
-//	public loseImg lose() {
-//		return new LoseImg();
-//	}
 
 	public void paint(Graphics g) {
 		missionCard.paint(g);
@@ -166,7 +163,6 @@ public class Player {
 	}
 
 	public void update() {
-		// missionCard.update();
 		myCard.update();
 		onWin();
 	}

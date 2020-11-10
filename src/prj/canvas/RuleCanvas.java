@@ -33,10 +33,8 @@ public class RuleCanvas extends Canvas {
 					try {
 						prj.GameFrame.instance.switchCanvas(RuleCanvas.this, IntroCanvas.class);
 					} catch (InstantiationException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (IllegalAccessException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -51,24 +49,6 @@ public class RuleCanvas extends Canvas {
 	public void update(Graphics g) {
 		paint(g);
 	}
-
-//	@Override
-//	public boolean mouseDown(Event evt, int x, int y) {
-//		if(button.click(x,y)) {
-//			try {
-//				prj.GameFrame.instance.switchCanvas(RuleCanvas.this, GameCanvas.class);
-//			} catch (InstantiationException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IllegalAccessException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			return super.mouseDown(evt, x, y);
-//		
-//		}
-//		return super.mouseDown(evt, x, y);
-//	}
 
 	@Override
 	public void paint(Graphics g) {
