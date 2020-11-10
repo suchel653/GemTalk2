@@ -5,13 +5,21 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JOptionPane;
+
 import prj.entity.ActionCard;
 import prj.entity.ActionCardListener;
+import prj.entity.Bgm;
+import prj.entity.BgmListener;
 import prj.entity.BlueCard;
 import prj.entity.Card;
 import prj.entity.CardDeck;
@@ -24,29 +32,38 @@ import prj.entity.Player;
 import prj.entity.PlayerListener;
 import prj.entity.RedCard;
 import prj.entity.TurnPointer;
+import prj.entity.Win;
+import prj.entity.ZoomOutListener;
 
 public class GameCanvas extends Canvas {
 
 	public static Canvas instance;
-
+	private GameCanvasListener canvasListener;
+	
+	private Win win;
+	
 	private List<Card> cardList;
 	private Card cardDeck;
 	private Card card1;
 	private Card card2;
+	private Card chanceCard;
 	private Random rand;
 	private GameBoardBackground gameBoardBackground;
 	private Player[] players;
+	private Card temp;
+	// private Card temp2;
 
 	private GameBackground gameBackground;
 	private int playTurn;
 
 	private ActionCard actionCard;
 	private TurnPointer turnPointer;
+	
+	private Bgm bgm;
 
 	public GameCanvas() {
 		instance = this;
 		rand = new Random();
-
 		gameBackground = new GameBackground();
 		gameBoardBackground = new GameBoardBackground(350, 225);
 
@@ -62,9 +79,14 @@ public class GameCanvas extends Canvas {
 
 				@Override
 				public void win() {
+					System.out.println(playTurn);
+					if(win == null)
+						win = new Win(playTurn);
+					
+					canvasListener.win();
 					System.out.println("소켓이 없어서 누군지는 모르지만 누군가 승리했습니다!");
 //						winImg = player[playTurn].win();
-					
+
 //						for(int i=0;i<4;i++)
 //							if(i != playTurn)
 //								loseImg = player[i].lose();
@@ -75,7 +97,7 @@ public class GameCanvas extends Canvas {
 		}
 
 		cardList = new ArrayList<>();
-		cardDeck = new CardDeck(370, 245);
+		cardDeck = new CardDeck(370 + 77, 245 + 109);
 
 		for (int i = 0; i < 50; i++)
 			if (i < 10)
@@ -99,12 +121,14 @@ public class GameCanvas extends Canvas {
 		check(cardList.get(0));
 		card2 = cardList.get(0);
 		cardList.remove(0);
-		
-		card1.setX(544);
-		card1.setY(245);
-		card2.setX(718);
-		card2.setY(245);
 
+		card1.setX(544 + 77);
+		card1.setY(245 + 109);
+		card2.setX(718 + 77);
+		card2.setY(245 + 109);
+
+		temp = card1;
+		// temp2 = card2;
 		turnPointer = new TurnPointer();
 
 		addMouseListener(new MouseAdapter() {
@@ -118,9 +142,8 @@ public class GameCanvas extends Canvas {
 				
 				if (card1.choiceCard(x, y)) {
 					check(cardList.get(0)); // 체크하면서 찬스, 행동카드가 나오면 cardList 맨뒤로 보내는 작업
-					Card temp = cardList.get(0);
-//					card1.zoomIn();// zoomin
-					
+					temp = card1;
+					temp.zoomIn();// zoomin
 					players[playTurn].answer(playTurn); // 대답하고 대답한 내용을 띄우기 까지함
 					for (int i = 0; i < 4; i++)
 						if (i != playTurn)
@@ -128,26 +151,57 @@ public class GameCanvas extends Canvas {
 								voteCount++;
 
 					if (voteCount >= 2) {
-						cardType = card1.getCardType();// move - myCard 연계
+						cardType = temp.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
+						temp.move(playTurn);
+						bgm = new Bgm();
+						bgm.setBgmListener(new BgmListener() {
+							
+							@Override
+							public void playLoseBgm() {
+								File bgm = new File("res/뾰로롱.wav");
 
-						
+								try {
+									AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+									Clip clip = AudioSystem.getClip();
+									clip.open(stream);
+									clip.start();
 
+								} catch (Exception e) {
+
+									e.printStackTrace();
+								}
+							}
+						});
+						bgm.play();
+            
 					} else {
-						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
+						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
+								JOptionPane.WARNING_MESSAGE);
+						temp = card1;
 					}
 
+					
 
-					card1 = temp;
-					card1.zoomOut();
-					cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
+					temp.setZoomOutListener(new ZoomOutListener() {
+
+						@Override
+						public void zoomOut() {
+							card1 = cardList.get(0);
+							temp = card1;
+							temp.zoomOut();
+							card1.zoomOut();
+							cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
+						}
+					});
 
 					playTurn = ++playTurn % 4; // playTurn: 0 ~ 3
 					turnPointer.turn(playTurn);
+
 				} else if (card2.choiceCard(x, y)) {
-//					gameBoard.zoomIn2();
 					check(cardList.get(0));
-					Card temp = cardList.get(0);
+					temp = card2;
+					temp.zoomIn();
 
 					players[playTurn].answer(playTurn);
 					for (int i = 0; i < 4; i++)
@@ -158,29 +212,64 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = card2.getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
+						temp.move(playTurn);
+						bgm = new Bgm();
+						bgm.setBgmListener(new BgmListener() {
+							
+							@Override
+							public void playLoseBgm() {
+								File bgm = new File("res/뾰로롱.wav");
 
-						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
+								try {
+									AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+									Clip clip = AudioSystem.getClip();
+									clip.open(stream);
+									clip.start();
+
+								} catch (Exception e) {
+
+									e.printStackTrace();
+								}
+							}
+						});
+						bgm.play();
 
 					} else {
-						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
+						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
+								JOptionPane.WARNING_MESSAGE);
+						temp = card2;
 					}
 
-
-					card2 = temp;
 					
-					card2.zoomOut();
-					cardList.remove(0);
+
+					temp.setZoomOutListener(new ZoomOutListener() {
+
+						@Override
+						public void zoomOut() {
+							card2 = cardList.get(0);
+							temp = card2;
+							temp.zoomOut2();
+							card2.zoomOut2();
+							cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
+						}
+					});
 
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
+
 				} else if (cardDeck.choiceCard(x, y)) {
-//					cardList.get(0).zoomIn();
+					temp = cardList.get(0);
+					temp.zoomIn();
 
 					if (cardList.get(0).getCardType() == 4) {
+//						JOptionPane.showMessageDialog(instance, "찬스카드를 획득하셨습니다!");
+						JOptionPane.showMessageDialog(instance, "찬스카드를 획득하셨습니다!", "축하합니다!", JOptionPane.INFORMATION_MESSAGE);
 						voteCount = 4;
 						System.out.println("lucky");
 
 					} else if (cardList.get(0).getCardType() == 5) {
+//						JOptionPane.showMessageDialog(instance, "행동카드를 획득하셨습니다!");
+						JOptionPane.showMessageDialog(instance, "행동카드를 획득하셨습니다!", "좋을지? 나쁠지?", JOptionPane.WARNING_MESSAGE);
 						actionCard = (ActionCard) cardList.get(0);
 						actionCard.setActionListener(new ActionCardListener() {
 
@@ -188,14 +277,12 @@ public class GameCanvas extends Canvas {
 							public void give(int randomPlayer, int randomCard) {
 								int cardType = players[playTurn].takeCard(randomCard);
 								players[randomPlayer].moveToPlayer(cardType);
-
 							}
 
 							@Override
 							public void take(int randomPlayer, int randomCard) {
 								int cardType = players[randomPlayer].takeCard(randomCard);
 								players[playTurn].moveToPlayer(cardType);
-
 							}
 
 						});
@@ -214,19 +301,48 @@ public class GameCanvas extends Canvas {
 					if (voteCount >= 2) {
 						cardType = cardList.get(0).getCardType();// move - myCard 연계
 						players[playTurn].moveToPlayer(cardType);
+						temp.move(playTurn);
+						bgm = new Bgm();
+						bgm.setBgmListener(new BgmListener() {
+							
+							@Override
+							public void playLoseBgm() {
+								File bgm = new File("res/뾰로롱.wav");
 
-						// 플레이어에게 카드가 채워지는 모션 코드 채워넣기
+								try {
+									AudioInputStream stream = AudioSystem.getAudioInputStream(bgm);
+									Clip clip = AudioSystem.getClip();
+									clip.open(stream);
+									clip.start();
+								} catch (Exception e) {
+
+									e.printStackTrace();
+								}
+							}
+						});
+						bgm.play();
 
 					} else {
-						// 과반수를 넘지 못했으므로 카드를 획득하지 못했다는 알림 코드 채워넣기
+						JOptionPane.showMessageDialog(GameCanvas.instance, "투표결과가 과반수를 넘지못하여 카드를 획득하지 못했습니다.", "알림",
+								JOptionPane.WARNING_MESSAGE);
+						temp=card2;
 					}
 
-					cardList.remove(0);
+					
+
+					temp.setZoomOutListener(new ZoomOutListener() {
+
+						@Override
+						public void zoomOut() {
+							System.out.println("템프" + temp.getVx());
+							temp = card2;
+							cardList.remove(0); // 카드덱 맨위에 있는 card가 card1에 그려졌으므로 삭제
+						}
+					});
+
 					playTurn = ++playTurn % 4;
 					turnPointer.turn(playTurn);
 				}
-
-//				cardList.remove(0);// zoomout역할
 
 			}
 
@@ -243,10 +359,20 @@ public class GameCanvas extends Canvas {
 						// 얘를 해줘야 repaint를 할때 변경된 부분이 적용되어 다시 그려진다.
 						players[i].update();
 					}
-//					if(cardList.get(0) == null) {
-//						
-//						System.exit(0);
-//					}
+					
+					card1.update();
+					card2.update();
+					cardDeck.update();
+					temp.update();
+					if(win != null) {
+						System.out.println("aa");
+						try {
+							win.update();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					// repaint() -> Canvas.update()가 화면을 지움 -> Canvas.paint(g)가 다시 그림
 					repaint(); // 이걸 안하면 시작화면에서 그대로 멈춤(그린걸 지우고 다시 그리지를 않으므로)
 
@@ -283,15 +409,18 @@ public class GameCanvas extends Canvas {
 		Graphics bg = buf.getGraphics();
 
 		gameBackground.paint(bg);
-		gameBoardBackground.paint(bg);
+//		gameBoardBackground.paint(bg);
 
 		for (int i = 0; i < 4; i++)
 			players[i].paint(bg);
 
+		turnPointer.paint(bg);
 		cardDeck.paint(bg);
 		card1.paint(bg);
 		card2.paint(bg);
-		turnPointer.paint(bg);
+		temp.paint(bg);
+		if(win != null)
+			win.paint(bg);
 
 		g.drawImage(buf, 0, 0, this);
 	}
@@ -300,5 +429,11 @@ public class GameCanvas extends Canvas {
 	public void update(Graphics g) {
 		paint(g);
 	}
+
+	public void setCanvasListener(GameCanvasListener canvasListener) {
+		this.canvasListener = canvasListener;
+	}
+	
+	
 
 }

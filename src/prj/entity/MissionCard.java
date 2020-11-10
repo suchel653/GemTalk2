@@ -37,7 +37,7 @@ public class MissionCard {
 	private Image blueGemImg;
 	private CardStatus[] cardStatus;
 
-	private int max = 6;
+	private int max = 1;
 	private Card[] cards;
 	private Random rand = new Random();
 
@@ -64,7 +64,7 @@ public class MissionCard {
 		cards = new Card[4];
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		missionCardImg = tk.getImage("res/missionCard1.png");
+		missionCardImg = tk.getImage("res/missionCard.png");
 		redGemImg = tk.getImage("res/redGem.png");
 		orangeGemImg = tk.getImage("res/orangeGem.png");
 		greenGemImg = tk.getImage("res/greenGem.png");
@@ -123,5 +123,23 @@ public class MissionCard {
 	public void setCards(Card[] cards) {
 		this.cards = cards;
 	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	
 
 }

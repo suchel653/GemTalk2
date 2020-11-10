@@ -18,7 +18,9 @@ public class Player {
 	private int width = 150;
 	private int height = 150;
 	private Image img;
-
+	private int imgNum;
+	private int moveIndex = 0;
+	private int moveTempo = 6;
 	private MissionCard missionCard;
 	private MyCard myCard;
 
@@ -29,6 +31,7 @@ public class Player {
 	}
 
 	public Player(int pbX, int pbY, int imgNum) {
+		this.imgNum = imgNum;
 		switch (imgNum) {
 		case 1:
 		case 3:
@@ -54,20 +57,29 @@ public class Player {
 
 	public int vote() {
 
-		Object options[] = { "O", "X" };
-		int input = JOptionPane.showOptionDialog(GameCanvas.instance, "찬성하면 O, 반대하면 X를 눌러주세요", "찬/반 선택",
+		Object options[] = { "⭕", "❌" };
+		int input = JOptionPane.showOptionDialog(null, "답변이 만족스럽다면 O, 아니라면 X를 눌러주세요", "O/X 선택",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 		return input;
 	}
 
 	public void answer(int playTurn) {
+		boolean isCancel = true;
+		
+		String text = "";
+		String answer = JOptionPane.showInputDialog(GameCanvas.instance, "질문의 답변을 입력하세요", "답변", JOptionPane.QUESTION_MESSAGE);
+		
+		while(isCancel) {
+			 if(answer != null) {
+				  text = "player" + Integer.toString(playTurn + 1) + "의 대답입니다";
+				 isCancel = false;
+			 }
+			 else
+				 answer = JOptionPane.showInputDialog(GameCanvas.instance.locate(1000, 500), "질문의 답변을 해주세요", "답변이 입력되지 않았습니다!!", JOptionPane.ERROR_MESSAGE);
+		}
 
-		String answer = JOptionPane.showInputDialog(GameCanvas.instance, "대답을 입력하세요");
-
-		String text = "player" + Integer.toString(playTurn + 1) + "의 대답입니다";
-
-		JOptionPane.showMessageDialog(GameCanvas.instance, answer, text, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, answer, text, JOptionPane.INFORMATION_MESSAGE);				 
 	}
 
 	// 윈을 체크하는 메소드
@@ -107,11 +119,11 @@ public class Player {
 			playerListener.win();
 
 	}
-	
+
 //	public winImg win() {
 //		return new WinImg();
 //	}
-	
+
 //	public loseImg lose() {
 //		return new LoseImg();
 //	}
@@ -120,14 +132,37 @@ public class Player {
 		missionCard.paint(g);
 		myCard.paint(g);
 
-		int w = img.getWidth(null);
 		int h = img.getHeight(null);
 		int x1 = x;
 		int y1 = y;
 		int x2 = x1 + width;
 		int y2 = y1 + height;
+		int order = 0;
 
-		g.drawImage(img, x1, y1, x2, y2, 0, 0, w, h, GameCanvas.instance);
+		switch (imgNum) {
+		case 1:
+			order = 7;
+			break;
+		case 2:
+			order = 4;
+			break;
+		case 3:
+			order = 10;
+			break;
+		case 4:
+			order = 5;
+			break;
+		}
+		int w = img.getWidth(null) / order;
+		if (moveTempo == 0) {
+			moveIndex++;
+			moveIndex = moveIndex % order;
+			moveTempo = 6;
+		} else
+			moveTempo--;
+		int offsetX = moveIndex * w;
+
+		g.drawImage(img, x1, y1, x2, y2, 0 + offsetX, 0, w + offsetX, h, GameCanvas.instance);
 	}
 
 	public void update() {

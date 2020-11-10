@@ -5,14 +5,21 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.Random;
 
+import prj.canvas.GameCanvas;
+
 public abstract class Card {
 
-//	private CardListener listener;
-//	private Random rand;
+	// private CardListener listener;
+	// private Random rand;
 
 	// move 메소드를 위한 좌표
 	private int x;
 	private int y;
+	private double dx;
+	private double dy;
+	private double vx;
+	private double vy;
+	private int speed;
 
 	private int questionOrder; // 10개의 질문을 구분하는 변수
 	private int cardType; // 0:red, 1:orange, 2:green, 3:blue, 4:chance, 5:action
@@ -21,9 +28,12 @@ public abstract class Card {
 	private int width;
 	private int height;
 	private Image img;
+	private double sizeIndex;
 
 	// 카드 갯수 카운트?
 	private int missionCount;
+
+	private ZoomOutListener zoomOutListener;
 
 	// 인자가 없는 생성자
 	public Card() {
@@ -50,40 +60,114 @@ public abstract class Card {
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		img = tk.getImage(imgSrc);
-
-//		rand = new Random();
+		speed = 3;
+		sizeIndex = 1;
 
 	}
 
 	public abstract void paint(Graphics g);
 
 	public boolean choiceCard(int x, int y) {
+
 		int w = width;
 		int h = height;
-		int x1 = this.x;
-		int y1 = this.y;
+		int x1 = this.x - w / 2;
+		int y1 = this.y - h / 2;
 		int x2 = x1 + w;
 		int y2 = y1 + h;
 
 		if ((x1 < x && x < x2) && (y1 < y && y < y2)) {
-
 			return true;
 		} else {
-
 			return false;
 		}
 	}
 
+	public void move(int playTurn) {
+
+		switch (playTurn) {
+		case 0:
+			dx = 350 + 75;
+			dy = 45 + 75;
+			break;
+		case 1:
+			dx = 700 + 75 + 200;
+			dy = 45 + 75;
+			break;
+		case 2:
+			dx = 350 + 75;
+			dy = 445 + 75;
+			break;
+		case 3:
+			dx = 700 + 75;
+			dy = 445 + 75;
+			break;
+		}
+
+		double w = this.dx - this.x;
+		double h = this.dy - this.y;
+		double d = (int) Math.sqrt(w * w + h * h);
+		this.vx = w * 3 / d;
+		this.vy = h * 3 / d;
+
+	}
+
+	public void update() {
+
+//		if (Math.abs(dx - x) <= 30 && Math.abs(dy - y) <= 30) {
+		if (width <= 10 && height <= 10) {
+			vx = 0;
+			vy = 0;
+//			System.out.println("update : " + vx);
+		}
+
+		if (vx != 0 || vy != 0) {
+			width *= 0.97;
+			height *= 0.97;
+//			width -= 5;
+//			height -= 6.4;
+		}
+
+		if (zoomOutListener != null && vx == 0 && vy == 0)
+			zoomOutListener.zoomOut();
+
+//		System.out.println(this.width);
+//		System.out.println(this.height);
+
+		x += vx;
+		y += vy;
+
+	}
+
 	public void zoomIn() {
+
+		x = 544 + 77;
+		y = 245 + 109;
+
+		width = 500;
+		height = 640;
 
 	}
 
 	public void zoomOut() {
+		// 만약 card1를 클릭시 card1 위치
+		x = 544 + 77;
+		y = 245 + 109;
 
+		width = 154;
+		height = 218;
+	}
+
+	public void zoomOut2() {
+		// 만약 card2를 클릭시 card2 위치
+		x = 718 + 77;
+		y = 245 + 109;
+
+		width = 154;
+		height = 218;
 	}
 
 	public void giveOrTake(int playTurn) {
-		
 	}
 
 	public int getMissionCount() {
@@ -138,8 +222,8 @@ public abstract class Card {
 		return width;
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
+	public void setWidth(double width) {
+		this.width = (int) width;
 	}
 
 	public int getHeight() {
@@ -150,8 +234,53 @@ public abstract class Card {
 		this.height = height;
 	}
 
-//	public void setListener(CardListener listener) {
-//		this.listener = listener;
-//	}
+	public double getDx() {
+		return dx;
+	}
+
+	public void setDx(double dx) {
+		this.dx = dx;
+	}
+
+	public double getDy() {
+		return dy;
+	}
+
+	public void setDy(double dy) {
+		this.dy = dy;
+	}
+
+	public void setVy(double vy) {
+		this.vy = vy;
+	}
+
+	public double getVx() {
+		return vx;
+	}
+
+	public void setVx(double vx2) {
+		this.vx = vx2;
+	}
+
+	public double getVy() {
+		return vy;
+	}
+
+	public void setVy(int vy) {
+		this.vy = vy;
+	}
+
+	public double getSizeIndex() {
+		return sizeIndex;
+	}
+
+	public void setSizeIndex(double sizeIndex) {
+		this.sizeIndex = sizeIndex;
+	}
+
+	public void setZoomOutListener(ZoomOutListener zoomOutListener) {
+		this.zoomOutListener = zoomOutListener;
+	}
 
 }
+
